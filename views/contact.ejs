@@ -1,0 +1,126 @@
+<%# layout('layout') removed because it's handled in app.js %>
+
+    <div class="pt-32 pb-24 min-h-screen bg-[#fbfbfd]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-24 reveal-on-scroll">
+                <span
+                    class="inline-block py-1 px-4 bg-apple-blue/10 text-apple-blue text-xs font-bold tracking-widest uppercase rounded-full mb-6">Connect</span>
+                <h1 class="text-5xl md:text-7xl font-black text-apple-dark mb-8">Reach the <br> <span
+                        class="gradient-text">Studio.</span></h1>
+                <p class="max-w-2xl text-2xl text-gray-400 font-light leading-relaxed">
+                    Whether you're looking for a performance build or a surgical repair, our team is ready to assist.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <!-- Contact Form -->
+                <div class="lg:col-span-7 reveal-on-scroll">
+                    <div class="bento-card p-10 md:p-12 bg-white drop-shadow-sm">
+                        <form action="#" method="POST" class="space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="relative group">
+                                    <input type="text" id="first-name"
+                                        class="peer w-full bg-apple-gray border-none rounded-2xl px-6 py-4 text-apple-dark placeholder-transparent focus:ring-2 focus:ring-apple-blue transition-all"
+                                        placeholder="First Name">
+                                    <label for="first-name"
+                                        class="absolute left-6 -top-2.5 text-xs font-bold text-apple-blue px-2 bg-white rounded-md transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-apple-blue peer-focus:bg-white">First
+                                        Name</label>
+                                </div>
+                                <div class="relative group">
+                                    <input type="text" id="last-name"
+                                        class="peer w-full bg-apple-gray border-none rounded-2xl px-6 py-4 text-apple-dark placeholder-transparent focus:ring-2 focus:ring-apple-blue transition-all"
+                                        placeholder="Last Name">
+                                    <label for="last-name"
+                                        class="absolute left-6 -top-2.5 text-xs font-bold text-apple-blue px-2 bg-white rounded-md transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-apple-blue peer-focus:bg-white">Last
+                                        Name</label>
+                                </div>
+                            </div>
+                            <div class="relative group">
+                                <input type="email" id="email"
+                                    class="peer w-full bg-apple-gray border-none rounded-2xl px-6 py-4 text-apple-dark placeholder-transparent focus:ring-2 focus:ring-apple-blue transition-all"
+                                    placeholder="Email Address">
+                                <label for="email"
+                                    class="absolute left-6 -top-2.5 text-xs font-bold text-apple-blue px-2 bg-white rounded-md transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-apple-blue peer-focus:bg-white">Email
+                                    Address</label>
+                            </div>
+                            <div class="relative group">
+                                <textarea id="message" rows="5"
+                                    class="peer w-full bg-apple-gray border-none rounded-2xl px-6 py-4 text-apple-dark placeholder-transparent focus:ring-2 focus:ring-apple-blue transition-all"
+                                    placeholder="How can we help?"></textarea>
+                                <label for="message"
+                                    class="absolute left-6 -top-2.5 text-xs font-bold text-apple-blue px-2 bg-white rounded-md transition-all peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-apple-blue peer-focus:bg-white">Your
+                                    Message</label>
+                            </div>
+                            <div>
+                                <button type="submit"
+                                    class="w-full py-5 bg-apple-dark text-white rounded-2xl font-bold text-lg hover:bg-black transition-all shadow-xl shadow-black/5">
+                                    Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Details -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div class="reveal-on-scroll bento-card p-10 bg-apple-blue text-white group"
+                        style="transition-delay: 100ms;">
+                        <h3 class="text-2xl font-bold mb-8">Direct Access</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-6">
+                                <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-1">Call Us
+                                    </p>
+                                    <p class="text-lg font-medium">+1 (555) 012-3456</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-6">
+                                <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-widest text-blue-200 mb-1">Email Us
+                                    </p>
+                                    <p class="text-lg font-medium">hello@mamdani.tech</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-on-scroll bento-card p-10 bg-white group" style="transition-delay: 200ms;">
+                        <h3 class="text-2xl font-bold text-apple-dark mb-8">The Lab</h3>
+                        <div class="flex items-start space-x-6">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-apple-gray flex items-center justify-center text-xl text-apple-blue">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Visit</p>
+                                <p class="text-lg font-medium text-apple-dark">123 Silicon Valley Road<br>Tech Plaza,
+                                    Level 4<br>CA 94025</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Socials -->
+                    <div class="reveal-on-scroll flex justify-between gap-4" style="transition-delay: 300ms;">
+                        <a href="#"
+                            class="flex-1 bento-card p-6 bg-white flex items-center justify-center text-xl text-gray-400 hover:text-apple-blue transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="flex-1 bento-card p-6 bg-white flex items-center justify-center text-xl text-gray-400 hover:text-apple-blue transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="flex-1 bento-card p-6 bg-white flex items-center justify-center text-xl text-gray-400 hover:text-apple-blue transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
