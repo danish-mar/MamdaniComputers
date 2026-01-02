@@ -31,6 +31,14 @@ app.get('/contact', (req, res) => {
     res.render('contact', { title: 'Contact Us' });
 });
 
+app.get('/about', (req, res) => {
+    res.render('about', { title: 'About Us' });
+});
+
+app.get('/repair', (req, res) => {
+    res.render('repair', { title: 'Repair Services' });
+});
+
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });

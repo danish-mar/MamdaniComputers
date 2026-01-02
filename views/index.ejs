@@ -23,7 +23,7 @@
                 x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-cloak>
                 <div class="absolute inset-0 bg-black/40 backdrop-blur-xl" @click="selectedProduct = null"></div>
-                <div class="relative bg-white w-full max-w-5xl rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
+                <div class="relative bg-white dark:bg-[#1c1c1e] w-full max-w-5xl rounded-[3rem] overflow-hidden shadow-2xl flex flex-col md:flex-row"
                     x-show="selectedProduct" x-transition:enter="transition ease-out duration-500 scale-90"
                     x-transition:enter-start="scale-90 opacity-0" x-transition:enter-end="scale-100 opacity-100">
                     <div class="w-full md:w-1/2 aspect-square md:aspect-auto overflow-hidden bg-apple-gray">
@@ -35,12 +35,15 @@
                             <span x-text="selectedProduct?.type === 'new' ? 'Brand New' : 'Certified Refurbished'"
                                 class="text-[10px] font-bold tracking-[0.2em] uppercase text-apple-blue py-1 px-3 bg-blue-50 rounded-full"></span>
                         </div>
-                        <h2 class="text-4xl font-bold text-apple-dark mb-6" x-text="selectedProduct?.name"></h2>
-                        <p class="text-gray-500 text-lg mb-8 leading-relaxed" x-text="selectedProduct?.desc"></p>
+                        <h2 class="text-4xl font-bold text-apple-dark dark:text-white mb-6"
+                            x-text="selectedProduct?.name"></h2>
+                        <p class="text-gray-500 dark:text-gray-400 text-lg mb-8 leading-relaxed"
+                            x-text="selectedProduct?.desc"></p>
 
                         <div class="grid grid-cols-2 gap-4 mb-10">
                             <template x-for="spec in selectedProduct?.specs">
-                                <div class="flex items-center space-x-3 text-sm text-apple-dark font-medium">
+                                <div
+                                    class="flex items-center space-x-3 text-sm text-apple-dark dark:text-gray-300 font-medium">
                                     <div class="w-2 h-2 rounded-full bg-apple-blue"></div>
                                     <span x-text="spec"></span>
                                 </div>
@@ -48,7 +51,7 @@
                         </div>
 
                         <div class="flex items-center justify-between mt-auto">
-                            <span class="text-3xl font-bold text-apple-dark"
+                            <span class="text-3xl font-bold text-apple-dark dark:text-white"
                                 x-text="'₹' + selectedProduct?.price.toLocaleString('en-IN')"></span>
                             <button @click="selectedProduct = null"
                                 class="px-8 py-4 bg-apple-dark text-white rounded-full font-bold hover:bg-black transition-all">
@@ -57,7 +60,7 @@
                         </div>
                     </div>
                     <button @click="selectedProduct = null"
-                        class="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-apple-gray text-apple-dark hover:bg-gray-200 transition-colors">
+                        class="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-apple-gray dark:bg-white/10 text-apple-dark dark:text-white hover:bg-gray-200 dark:hover:bg-white/20 transition-colors">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -65,51 +68,60 @@
         </template>
 
         <!-- Hero Section -->
-        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 <div class="reveal-on-scroll">
                     <span
-                        class="inline-block py-1 px-4 bg-apple-blue/10 text-apple-blue text-xs font-bold tracking-widest uppercase rounded-full mb-8">Next-Gen
-                        Computing</span>
-                    <h1 class="text-6xl md:text-8xl font-black tracking-tighter text-apple-dark mb-8 leading-[1]">
-                        Powerfully <br>
-                        <span class="gradient-text">Personal.</span>
+                        class="inline-block py-2 px-6 bg-apple-blue/5 text-apple-blue text-xs font-bold tracking-[0.2em] uppercase rounded-full mb-10 border border-apple-blue/10">Premium
+                        Sales & Surgical Repairs</span>
+                    <h1
+                        class="text-6xl md:text-[120px] font-black tracking-tighter text-apple-dark dark:text-white mb-12 leading-[0.95] drop-shadow-sm">
+                        Think Further.<br>
+                        <span class="gradient-text">Build Better.</span>
                     </h1>
-                    <p class="mt-8 max-w-2xl mx-auto text-xl md:text-2xl text-gray-400 font-light leading-relaxed">
-                        Mamdani Computers delivers elite hardware and surgical-grade repairs for the modern
-                        professional.
+                    <p class="mt-10 max-w-2xl mx-auto text-2xl md:text-3xl text-gray-400 font-light leading-relaxed">
+                        Chhatrapati Sambhajinagar's elite destination for high-performance computing and micro-component
+                        repairs.
                     </p>
-                    <div class="mt-12 flex flex-col sm:flex-row justify-center items-center gap-6">
-                        <a href="#store"
-                            class="group px-10 py-5 bg-apple-dark text-white rounded-full font-bold text-lg hover:bg-black transition-all flex items-center">
-                            Visit Store
-                            <i class="fas fa-arrow-right ml-3 transition-transform group-hover:translate-x-2"></i>
+                    <div class="mt-16 flex flex-col sm:flex-row justify-center items-center gap-8">
+                        <a href="/products"
+                            class="group px-12 py-6 bg-apple-dark text-white rounded-full font-bold text-xl hover:bg-black transition-all flex items-center shadow-2xl shadow-black/10">
+                            The Catalog
+                            <i
+                                class="fas fa-chevron-right ml-4 text-xs transition-transform group-hover:translate-x-2"></i>
                         </a>
-                        <a href="/services" class="text-apple-blue font-bold text-lg hover:underline transition-all">
-                            Our Repair Lab
+                        <a href="/repair"
+                            class="text-apple-blue font-bold text-xl hover:underline transition-all group flex items-center">
+                            Repair Studio
+                            <i class="fas fa-tools ml-3 text-sm opacity-0 group-hover:opacity-100 transition-all"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            <!-- Decorative Elements -->
-            <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle_at_center,rgba(0,113,227,0.03)_0%,transparent_70%)] -z-10">
+            <!-- Dynamic Background -->
+            <div class="absolute inset-0 -z-10 bg-white dark:bg-black transition-colors duration-500">
+                <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-apple-blue/10 rounded-full blur-[120px]">
+                </div>
+                <div
+                    class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-accent-500/10 rounded-full blur-[100px]">
+                </div>
             </div>
         </section>
 
         <!-- Bento Feature Section -->
-        <section class="py-32 bg-white relative">
+        <section class="py-32 bg-white dark:bg-black transition-colors duration-500 relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <!-- Large Card -->
                     <div
-                        class="reveal-on-scroll md:col-span-2 md:row-span-2 bento-card p-12 bg-[#fafafa] flex flex-col justify-center">
+                        class="reveal-on-scroll md:col-span-2 md:row-span-2 bento-card p-12 bg-[#fafafa] dark:bg-[#1c1c1e] flex flex-col justify-center">
                         <div
-                            class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center text-apple-blue text-3xl mb-8">
+                            class="w-16 h-16 bg-white dark:bg-white/10 rounded-2xl shadow-sm flex items-center justify-center text-apple-blue text-3xl mb-8">
                             <i class="fas fa-microchip"></i>
                         </div>
-                        <h3 class="text-3xl font-bold mb-4">Precision Components</h3>
-                        <p class="text-gray-500 text-lg leading-relaxed">We source only Tier-1 parts directly from
+                        <h3 class="text-3xl font-bold mb-4 dark:text-white">Precision Components</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-lg leading-relaxed">We source only Tier-1 parts
+                            directly from
                             manufacturers. Every component is rigorously tested for the "Mamdani Standard" before it
                             reaches your machine.</p>
                     </div>
@@ -117,7 +129,7 @@
                     <div class="reveal-on-scroll md:col-span-2 bento-card p-12 bg-apple-blue text-white overflow-hidden relative"
                         style="transition-delay: 100ms;">
                         <div class="relative z-10">
-                            <h3 class="text-3xl font-bold mb-4">Mamdani Cloud™</h3>
+                            <h3 class="text-3xl font-bold mb-4">Software Solution</h3>
                             <p class="text-blue-100 text-lg leading-relaxed">Exclusive software optimizations for every
                                 build we deliver.</p>
                         </div>
@@ -144,25 +156,25 @@
         </section>
 
         <!-- horizontal store section -->
-        <section id="store" class="py-32 overflow-hidden bg-[#fbfbfd]">
+        <section id="store" class="py-32 overflow-hidden bg-[#fbfbfd] dark:bg-black transition-colors duration-500">
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
                 <div class="reveal-on-scroll">
-                    <h2 class="text-5xl md:text-6xl font-black text-apple-dark mb-4">The Store.</h2>
+                    <h2 class="text-5xl md:text-6xl font-black text-apple-dark dark:text-white mb-4">The Store.</h2>
                     <p class="text-2xl text-gray-400 font-light">Explore the latest in high-performance computing.</p>
                 </div>
                 <!-- Interactive Filters -->
                 <div
-                    class="reveal-on-scroll flex flex-col md:flex-row items-center gap-4 bg-apple-gray p-1 rounded-full shrink-0">
+                    class="reveal-on-scroll flex flex-col md:flex-row items-center gap-4 bg-apple-gray dark:bg-white/5 p-1 rounded-full shrink-0">
                     <div class="flex">
                         <button @click="filter = 'all'"
-                            :class="filter === 'all' ? 'bg-white shadow-sm font-bold text-apple-dark' : 'text-gray-500'"
+                            :class="filter === 'all' ? 'bg-white dark:bg-white/10 shadow-sm font-bold text-apple-dark dark:text-white' : 'text-gray-500'"
                             class="px-8 py-3 rounded-full text-sm transition-all duration-300">All</button>
                         <button @click="filter = 'new'"
-                            :class="filter === 'new' ? 'bg-white shadow-sm font-bold text-apple-dark' : 'text-gray-500'"
+                            :class="filter === 'new' ? 'bg-white dark:bg-white/10 shadow-sm font-bold text-apple-dark dark:text-white' : 'text-gray-500'"
                             class="px-8 py-3 rounded-full text-sm transition-all duration-300">New</button>
                         <button @click="filter = 'used'"
-                            :class="filter === 'used' ? 'bg-white shadow-sm font-bold text-apple-dark' : 'text-gray-500'"
+                            :class="filter === 'used' ? 'bg-white dark:bg-white/10 shadow-sm font-bold text-apple-dark dark:text-white' : 'text-gray-500'"
                             class="px-8 py-3 rounded-full text-sm transition-all duration-300">Refurbished</button>
                     </div>
                     <a href="/products"
@@ -174,14 +186,15 @@
 
             <!-- Horizontal Scroll Rack -->
             <div class="relative group">
-                <div class="flex overflow-x-auto space-x-8 px-[calc(50vw-640px)] scrollbar-hide snap-x"
+                <div class="flex overflow-x-auto space-x-6 md:space-x-8 px-6 md:px-[calc(50vw-640px)] scrollbar-hide snap-x snap-mandatory"
                     style="scrollbar-width: none; -ms-overflow-style: none;">
                     <template x-for="product in filteredProducts" :key="product.id">
-                        <div class="snap-center shrink-0 w-[400px] group/card cursor-pointer"
+                        <div class="snap-center shrink-0 w-[85vw] sm:w-[400px] group/card cursor-pointer"
                             @click="selectedProduct = product">
-                            <div class="bento-card aspect-[4/5] relative bg-white overflow-hidden">
+                            <div
+                                class="bento-card aspect-[4/5] relative bg-white dark:bg-[#1c1c1e] overflow-hidden rounded-[2rem]">
                                 <img :src="product.image" :alt="product.name"
-                                    class="w-full h-full object-cover transition-transform duration-1000 group-hover/card:scale-110">
+                                    class="w-full h-full object-cover rounded-[2rem] transition-transform duration-1000 group-hover/card:scale-110">
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500">
                                 </div>
@@ -193,7 +206,8 @@
                                 </div>
                             </div>
                             <div class="mt-6 px-4">
-                                <h4 class="text-xl font-bold text-apple-dark mb-2" x-text="product.name"></h4>
+                                <h4 class="text-xl font-bold text-apple-dark dark:text-white mb-2"
+                                    x-text="product.name"></h4>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-400 font-medium"
                                         x-text="'₹' + product.price.toLocaleString('en-IN')"></span>
@@ -216,17 +230,17 @@
         </section>
 
         <!-- CTAs & Footer-like CTA -->
-        <section class="py-48 bg-white relative overflow-hidden">
+        <section class="py-48 bg-white dark:bg-black transition-colors duration-500 relative overflow-hidden">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                 <div class="reveal-on-scroll">
-                    <h2 class="text-5xl md:text-7xl font-black text-apple-dark mb-12">Built for the <br> <span
-                            class="gradient-text">Uncompromising.</span></h2>
+                    <h2 class="text-5xl md:text-7xl font-black text-apple-dark dark:text-white mb-12">Built for the <br>
+                        <span class="gradient-text">Uncompromising.</span></h2>
                     <div class="flex flex-col sm:flex-row justify-center gap-6">
                         <a href="/contact"
-                            class="px-12 py-6 bg-apple-dark text-white rounded-full font-bold text-xl hover:scale-105 transition-all shadow-xl shadow-black/10">Start
+                            class="px-12 py-6 bg-apple-dark dark:bg-apple-blue text-white rounded-full font-bold text-xl hover:scale-105 transition-all shadow-xl shadow-black/10">Start
                             a Project</a>
                         <a href="/services"
-                            class="px-12 py-6 bg-apple-gray text-apple-dark rounded-full font-bold text-xl hover:bg-gray-200 transition-all">Explore
+                            class="px-12 py-6 bg-apple-gray dark:bg-white/10 text-apple-dark dark:text-white rounded-full font-bold text-xl hover:bg-gray-200 dark:hover:bg-white/20 transition-all">Explore
                             Repair Lab</a>
                     </div>
                 </div>
