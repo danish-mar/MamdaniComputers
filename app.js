@@ -4,6 +4,11 @@ const expressLayouts = require('express-ejs-layouts');
 const axios = require('axios');
 require('dotenv').config();
 
+console.log('--- Environment Check ---');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('API_BASE_URL:', process.env.API_BASE_URL || 'Not Set (using default)');
+console.log('-------------------------');
+
 const app = express();
 const port = 3000;
 
@@ -55,6 +60,7 @@ app.get('/product/:id', (req, res) => {
 app.get('/api/proxy/products', async (req, res) => {
     try {
         const targetUrl = (process.env.API_BASE_URL || 'https://api.mamdanicomputers.com') + '/api/v1/products/public';
+        console.log(`[Proxy] Fetching from: ${targetUrl}`);
         const response = await axios.get(targetUrl);
         res.json(response.data);
     } catch (error) {
