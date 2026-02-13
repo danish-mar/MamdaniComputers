@@ -1,19 +1,12 @@
 // Product Fetcher - Fetches products from external server
 const ProductsFetcher = {
-    // Change this to your actual server URL
-    API_URL: 'https://api.example.com/products', // Replace with your server
+    // Use the local proxy to bypass CORS
+    API_URL: '/api/proxy/products',
     
     // Fallback products in case server is down
     fallbackProducts: [
-        { id: 1, name: 'MacBook Pro M3 Max', category: 'Laptops', type: 'new', price: 199900, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=1200', desc: 'The most powerful MacBook ever built.', specs: ['M3 Max Chip', '36GB Unified Memory', '1TB SSD'] },
-        { id: 2, name: 'Custom Gaming Rig V2', category: 'Desktops', type: 'new', price: 148000, image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=1200', desc: 'Crafted for enthusiasts.', specs: ['RTX 4080 Super', 'Intel i9-14900K', '64GB DDR5'] },
-        { id: 3, name: 'iPad Pro M2', category: 'Tablets', type: 'used', price: 63900, image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=1200', desc: 'Unmatched tablet performance.', specs: ['Apple M2 chip', '12.9-inch Display', 'Face ID'] },
-        { id: 4, name: 'Dell XPS 13 OLED', category: 'Laptops', type: 'used', price: 52000, image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1200', desc: 'Portable power with OLED.', specs: ['Intel i7', '16GB RAM', '512GB SSD'] },
-        { id: 5, name: 'Apple Studio Display', category: 'Displays', type: 'new', price: 127900, image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=1200', desc: '5K Retina perfection.', specs: ['5K Resolution', '12MP Camera', '6-Speaker System'] },
-        { id: 6, name: 'ThinkPad X1 Carbon', category: 'Laptops', type: 'used', price: 71900, image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=1200', desc: 'Legendary business reliability.', specs: ['Intel i7 vPro', '32GB RAM', '1TB SSD'] },
-        { id: 7, name: 'Mechanical Keyboard Pro', category: 'Accessories', type: 'new', price: 12000, image: 'https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&q=80&w=1200', desc: 'Tactile excellence.', specs: ['Brown Switches', 'RGB Backlit', 'Wireless/Wired'] },
-        { id: 8, name: 'Precision Mouse X', category: 'Accessories', type: 'new', price: 7100, image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=1200', desc: 'Surgical precision.', specs: ['25K DPI Sensor', 'Ultra-lightweight', '10 Buttons'] },
-        { id: 9, name: 'Mac Studio', category: 'Desktops', type: 'new', price: 159900, image: 'https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&fit=crop&q=80&w=1200', desc: 'Compact powerhouse for creators.', specs: ['M2 Max Chip', '32GB Memory', '512GB SSD'] }
+        { id: '1', name: 'MacBook Pro M3 Max', category: 'Laptops', type: 'new', price: 199900, images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=1200'], specifications: { CPU: 'M3 Max Chip', RAM: '36GB Unified Memory', Storage: '1TB SSD' } },
+        { id: '2', name: 'Custom Gaming Rig V2', category: 'Desktops', type: 'new', price: 148000, images: ['https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=1200'], specifications: { GPU: 'RTX 4080 Super', CPU: 'Intel i9-14900K', RAM: '64GB DDR5' } }
     ],
 
     /**
@@ -29,9 +22,17 @@ const ProductsFetcher = {
                 throw new Error(`Server error: ${response.status}`);
             }
             
-            const data = await response.json();
-            console.log('Products fetched successfully:', data);
-            return data;
+            const result = await response.json();
+            if (result.success && Array.isArray(result.data)) {
+                console.log('Products fetched successfully:', result.data);
+                // Ensure each product has an 'id' field for consistency if it only has '_id'
+                return result.data.map(p => ({
+                    ...p,
+                    id: p.id || p._id
+                }));
+            } else {
+                throw new Error(result.message || 'Unknown API error');
+            }
         } catch (error) {
             console.warn('Failed to fetch products from server, using fallback:', error);
             return this.fallbackProducts;

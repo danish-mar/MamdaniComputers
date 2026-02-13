@@ -1,9 +1,14 @@
 const express = require('express');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
+const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
+
+// Set global locals for all templates
+app.locals.API_BASE_URL = process.env.API_BASE_URL || 'https://api.mamdanicomputers.com';
 
 // EJS and Layouts setup
 app.use(expressLayouts);
@@ -37,6 +42,29 @@ app.get('/about', (req, res) => {
 
 app.get('/repair', (req, res) => {
     res.render('repair', { title: 'Repair Services' });
+});
+
+app.get('/product/:id', (req, res) => {
+    res.render('product-detail', { 
+        title: 'Product Details',
+        productId: req.params.id
+    });
+});
+
+// Proxy route to bypass CORS
+app.get('/api/proxy/products', async (req, res) => {
+    try {
+        const targetUrl = (process.env.API_BASE_URL || 'https://api.mamdanicomputers.com') + '/api/v1/products/public';
+        const response = await axios.get(targetUrl);
+        res.json(response.data);
+    } catch (error) {
+        console.error('Proxy error:', error.message);
+        res.status(error.response?.status || 500).json({
+            success: false,
+            message: 'Failed to fetch products through proxy',
+            error: error.message
+        });
+    }
 });
 
 app.listen(port, () => {

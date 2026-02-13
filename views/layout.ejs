@@ -1,265 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <!-- Essential Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
     <!-- Title & Description -->
     <title>Mamdani Computers | <%= title %></title>
-    <meta name="description" content="Mamdani Computers - Professional computer repair, sales, and IT services. Expert solutions for all your computing needs. Fast, reliable service.">
-    
+    <meta
+      name="description"
+      content="Mamdani Computers - Professional computer repair, sales, and IT services. Expert solutions for all your computing needs. Fast, reliable service."
+    />
+
     <!-- Keywords -->
-    <meta name="keywords" content="computer repair, laptop repair, IT services, computer sales, Mamdani Computers, pc repair, mac repair, desktop repair, hardware support">
-    
+    <meta
+      name="keywords"
+      content="computer repair, laptop repair, IT services, computer sales, Mamdani Computers, pc repair, mac repair, desktop repair, hardware support"
+    />
+
     <!-- SEO & Indexing -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="language" content="English">
-    <meta name="author" content="Mamdani Computers">
-    <meta name="revisit-after" content="7 days">
-    <meta name="distribution" content="global">
-    
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="language" content="English" />
+    <meta name="author" content="Mamdani Computers" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="distribution" content="global" />
+
     <!-- Open Graph Tags (Social Media) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Mamdani Computers | Professional IT Services & Repair">
-    <meta property="og:description" content="Get expert computer repair, sales, and IT services at Mamdani Computers. Fast & reliable solutions for all devices.">
-    <meta property="og:url" content="https://mamdanicomputers.com">
-    <meta property="og:site_name" content="Mamdani Computers">
-    <meta property="og:locale" content="en_US">
-    
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Mamdani Computers | Professional IT Services & Repair"
+    />
+    <meta
+      property="og:description"
+      content="Get expert computer repair, sales, and IT services at Mamdani Computers. Fast & reliable solutions for all devices."
+    />
+    <meta property="og:url" content="https://mamdanicomputers.com" />
+    <meta property="og:site_name" content="Mamdani Computers" />
+    <meta property="og:locale" content="en_US" />
+
     <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mamdani Computers | Professional IT Services">
-    <meta name="twitter:description" content="Expert computer repair and IT services. Fast, reliable, and professional solutions.">
-    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Mamdani Computers | Professional IT Services"
+    />
+    <meta
+      name="twitter:description"
+      content="Expert computer repair and IT services. Fast, reliable, and professional solutions."
+    />
+
     <!-- Additional SEO Tags -->
-    <meta name="theme-color" content="#0071e3">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+    <meta name="theme-color" content="#0071e3" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
     <!-- Canonical Tag -->
-    <link rel="canonical" href="https://mamdanicomputers.com">
-    
+    <link rel="canonical" href="https://mamdanicomputers.com" />
+
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="apple-touch-icon" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
 
     <!-- Premium Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- AlpineJS -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script>
+      window.API_BASE_URL = "<%= API_BASE_URL %>";
+    </script>
     <!-- Products Fetch Script -->
     <script src="/js/productsFetch.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <style>
-        :root {
-            --apple-blue: #0071e3;
-            --apple-gray: #f5f5f7;
-            --apple-dark: #1d1d1f;
+      :root {
+        --apple-blue: #0071e3;
+        --apple-gray: #f5f5f7;
+        --apple-dark: #1d1d1f;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+        background-color: #fbfbfd;
+        background-image: radial-gradient(#e5e7eb 0.5px, transparent 0.5px);
+        background-size: 24px 24px;
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+
+      .glass-dark {
+        background: rgba(29, 29, 31, 0.8);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+
+      /* Apple-style reveal animations */
+      [x-cloak] {
+        display: none !important;
+      }
+
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+        transition:
+          opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1),
+          transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        will-change: transform, opacity;
+      }
+
+      .reveal-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .gradient-text {
+        background: linear-gradient(180deg, #1d1d1f 0%, #424245 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Responsive Typography */
+      @media (max-width: 640px) {
+        h1 {
+          font-size: 3.5rem !important;
+          line-height: 1.1 !important;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            scroll-behavior: smooth;
-            background-color: #fbfbfd;
-            background-image:
-                radial-gradient(#e5e7eb 0.5px, transparent 0.5px);
-            background-size: 24px 24px;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-        }
-
-        .glass-dark {
-            background: rgba(29, 29, 31, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-        }
-
-        /* Apple-style reveal animations */
-        [x-cloak] {
-            display: none !important;
-        }
-
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px) scale(0.98);
-            transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1),
-                transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform, opacity;
-        }
-
-        .reveal-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .gradient-text {
-            background: linear-gradient(180deg, #1d1d1f 0%, #424245 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Responsive Typography */
-        @media (max-width: 640px) {
-            h1 {
-                font-size: 3.5rem !important;
-                line-height: 1.1 !important;
-            }
-
-            h2 {
-                font-size: 2.5rem !important;
-            }
-
-            .bento-card {
-                border-radius: 1.5rem;
-                padding: 2rem !important;
-            }
-        }
-
-        /* Custom Scrollbar for premium feel */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #d1d1d6;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a1a1a6;
+        h2 {
+          font-size: 2.5rem !important;
         }
 
         .bento-card {
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 2rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+          border-radius: 1.5rem;
+          padding: 2rem !important;
+        }
+      }
+
+      /* Custom Scrollbar for premium feel */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #d1d1d6;
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a1a1a6;
+      }
+
+      .bento-card {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 2rem;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+      }
+
+      .bento-card:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 30px 60px -12px rgba(50, 50, 93, 0.1),
+          0 18px 36px -18px rgba(0, 0, 0, 0.1);
+        border-color: rgba(0, 0, 0, 0.1);
+      }
+
+      /* Shimmer effect for loaders/skeletons */
+      .shimmer {
+        background: linear-gradient(
+          90deg,
+          #f0f0f0 25%,
+          #f7f7f7 50%,
+          #f0f0f0 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
         }
 
-        .bento-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.1), 0 18px 36px -18px rgba(0, 0, 0, 0.1);
-            border-color: rgba(0, 0, 0, 0.1);
+        100% {
+          background-position: -200% 0;
         }
-
-        /* Shimmer effect for loaders/skeletons */
-        .shimmer {
-            background: linear-gradient(90deg, #f0f0f0 25%, #f7f7f7 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
+      }
     </style>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        apple: {
-                            blue: '#0071e3',
-                            gray: 'var(--apple-gray)',
-                            dark: '#1d1d1f'
-                        }
-                    }
-                }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              apple: {
+                blue: "#0071e3",
+                gray: "var(--apple-gray)",
+                dark: "#1d1d1f",
+              },
+            },
+          },
+        },
+      };
+
+      document.addEventListener("alpine:init", () => {
+        Alpine.store("theme", {
+          mode: localStorage.getItem("theme-mode") || "auto",
+
+          init() {
+            this.apply();
+            // Update periodically for auto mode
+            setInterval(() => {
+              if (this.mode === "auto") this.apply();
+            }, 60000);
+          },
+
+          setMode(m) {
+            this.mode = m;
+            localStorage.setItem("theme-mode", m);
+            this.apply();
+          },
+
+          apply() {
+            let isDark = false;
+            if (this.mode === "auto") {
+              const hour = new Date().getHours();
+              isDark = hour >= 18 || hour < 6;
+            } else {
+              isDark = this.mode === "dark";
             }
-        }
 
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('theme', {
-                mode: localStorage.getItem('theme-mode') || 'auto',
+            if (isDark) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          },
+        });
+      });
 
-                init() {
-                    this.apply();
-                    // Update periodically for auto mode
-                    setInterval(() => {
-                        if (this.mode === 'auto') this.apply();
-                    }, 60000);
-                },
-
-                setMode(m) {
-                    this.mode = m;
-                    localStorage.setItem('theme-mode', m);
-                    this.apply();
-                },
-
-                apply() {
-                    let isDark = false;
-                    if (this.mode === 'auto') {
-                        const hour = new Date().getHours();
-                        isDark = hour >= 18 || hour < 6;
-                    } else {
-                        isDark = this.mode === 'dark';
-                    }
-
-                    if (isDark) {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
-                }
+      document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
             });
+          },
+          { threshold: 0.1 },
+        );
+
+        const observeElements = () => {
+          document
+            .querySelectorAll(".reveal-on-scroll:not(.visible)")
+            .forEach((el) => observer.observe(el));
+        };
+
+        observeElements();
+
+        const mutationObserver = new MutationObserver(() => {
+          observeElements();
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
+        mutationObserver.observe(document.body, {
+          childList: true,
+          subtree: true,
         });
+      });
     </script>
-</head>
+  </head>
 
-<body class="overflow-x-hidden" x-data :class="$store.theme.mode">
+  <body class="overflow-x-hidden" x-data :class="$store.theme.mode">
     <div class="bg-animation">
-        <div class="ray"></div>
-        <div class="ray"></div>
+      <div class="ray"></div>
+      <div class="ray"></div>
     </div>
     <%- include('partials/header') %>
 
-        <main>
-            <%- body %>
-        </main>
+    <main><%- body %></main>
 
-        <%- include('partials/footer') %>
-</body>
-
+    <%- include('partials/footer') %>
+  </body>
 </html>
