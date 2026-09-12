@@ -1,112 +1,125 @@
-<%# layout('layout') removed because it's handled in app.js %>
+<%
+    const services = [
+        {
+            span: 'lg:col-span-7', icon: 'fa-tools',
+            title: 'Core Repair Lab',
+            body: 'Surgical-grade hardware diagnostics and component-level repairs for every major platform.',
+            points: ['Screen & chassis replacement', 'Logic board micro-soldering', 'Thermal management overhaul'],
+            image: 'https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&q=80&w=900',
+        },
+        {
+            span: 'lg:col-span-5', icon: 'fa-cogs',
+            title: 'The Forge',
+            body: 'Performance-driven custom workstations and gaming rigs, built to your exact digital fingerprint.',
+            points: ['Bespoke part selection', 'Custom liquid-cooling loops', 'Cable-managed perfection'],
+            cta: { href: '/contact', label: 'Start your build' },
+        },
+        {
+            span: 'lg:col-span-5', icon: 'fa-hdd',
+            title: 'Rescue Protocol',
+            body: 'Advanced logical data recovery from failing drives, corrupted systems and accidental deletions.',
+            points: ['Failed-drive imaging', 'Corrupted partition rebuilds', 'Secure data handling'],
+        },
+        {
+            span: 'lg:col-span-7', icon: 'fa-tags',
+            title: 'Curated Hardware',
+            body: 'Every machine we sell undergoes a 50-point inspection. We call it The Mamdani Certification.',
+            points: ['Certified pre-owned grading', 'Full diagnostic report', 'Warranty backed'],
+            cta: { href: '/products', label: 'Browse the catalog' },
+        },
+    ];
+%>
 
-    <div class="pt-32 pb-24 dark:bg-black transition-colors duration-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section Header -->
-            <div class="mb-24 reveal-on-scroll">
-                <span
-                    class="inline-block py-1 px-4 bg-apple-blue/10 text-apple-blue text-xs font-bold tracking-widest uppercase rounded-full mb-6">Expertise</span>
-                <h1 class="text-5xl md:text-7xl font-black text-apple-dark dark:text-white mb-8">Service, <br> <span
-                        class="gradient-text">Mastered.</span></h1>
-                <p class="max-w-2xl text-2xl text-gray-400 font-light leading-relaxed">
-                    From micro-soldering to enterprise deployments, our certified laboratory handles every pixel and
-                    byte with surgical precision.
-                </p>
-            </div>
+<!-- ===== HERO ===== -->
+<section class="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
+    <div class="aurora"><span></span><span></span><span></span></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl reveal-on-scroll">
+            <span class="inline-flex items-center gap-2 py-1.5 px-4 bg-black/5 dark:bg-white/10 text-apple-dark dark:text-white text-xs font-bold tracking-widest uppercase rounded-full mb-8">
+                <span class="w-2 h-2 rounded-full bg-apple-dark dark:bg-white animate-pulse"></span> Expertise
+            </span>
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter text-apple-dark dark:text-white mb-8 leading-[0.95]">
+                Service,<br><span class="animated-gradient-text">Mastered.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 font-light leading-relaxed">
+                From micro-soldering to enterprise deployments, our certified laboratory handles every pixel and byte with surgical precision.
+            </p>
+        </div>
+    </div>
+</section>
 
-            <!-- Services Bento Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
-                <!-- PC & Laptop Repair -->
-                <div
-                    class="reveal-on-scroll md:col-span-4 bento-card p-12 bg-white dark:bg-[#1c1c1e] flex flex-col md:flex-row items-center gap-12 group">
-                    <div class="w-full md:w-1/2">
-                        <div
-                            class="w-16 h-16 bg-apple-gray dark:bg-white/5 rounded-2xl flex items-center justify-center text-apple-blue text-3xl mb-8 group-hover:scale-110 transition-transform">
-                            <i class="fas fa-tools"></i>
+<!-- ===== SERVICES GRID ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <% services.forEach((s, i) => { %>
+            <div class="reveal-on-scroll spotlight gradient-border <%= s.span %> rounded-[2rem] bg-white dark:bg-white/[0.03] p-10 md:p-12 group overflow-hidden" style="transition-delay: <%= i * 100 %>ms;">
+                <div class="flex flex-col md:flex-row gap-10 h-full">
+                    <div class="flex-1 flex flex-col">
+                        <div class="w-16 h-16 rounded-2xl bg-apple-dark text-white dark:bg-white dark:text-apple-dark text-2xl flex items-center justify-center mb-8 shadow-lg shadow-black/10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                            <i class="fas <%= s.icon %>"></i>
                         </div>
-                        <h3 class="text-3xl font-bold text-apple-dark dark:text-white mb-4">Core Repair Lab</h3>
-                        <p class="text-gray-500 leading-relaxed text-lg mb-6">Surgical grade hardware diagnostics and
-                            component-level repairs for all major platforms.</p>
-                        <ul class="space-y-3">
-                            <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300">
-                                <i class="fas fa-check text-apple-blue mr-3"></i> Screen & Chassis Replacement
-                            </li>
-                            <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300">
-                                <i class="fas fa-check text-apple-blue mr-3"></i> Logic Board Micro-soldering
-                            </li>
-                            <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300">
-                                <i class="fas fa-check text-apple-blue mr-3"></i> Thermal Management Overhaul
-                            </li>
+                        <h3 class="text-3xl font-bold text-apple-dark dark:text-white mb-4"><%= s.title %></h3>
+                        <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg mb-6"><%= s.body %></p>
+                        <ul class="space-y-3 mt-auto">
+                            <% s.points.forEach(point => { %>
+                                <li class="flex items-center gap-3 text-sm font-medium text-apple-dark dark:text-gray-300">
+                                    <i class="fas fa-check text-apple-dark dark:text-white"></i> <%= point %>
+                                </li>
+                            <% }) %>
                         </ul>
+                        <% if (s.cta) { %>
+                            <a href="<%= s.cta.href %>" class="mt-8 inline-flex items-center gap-2 font-bold text-apple-dark dark:text-white group/cta w-fit">
+                                <%= s.cta.label %>
+                                <i class="fas fa-arrow-right text-xs transition-transform group-hover/cta:translate-x-1"></i>
+                            </a>
+                        <% } %>
                     </div>
-                    <div class="w-full md:w-1/2 aspect-square rounded-[2rem] overflow-hidden bg-apple-gray">
-                        <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&q=80&w=800"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
-                    </div>
-                </div>
-
-                <!-- Custom Builds -->
-                <div class="reveal-on-scroll md:col-span-2 bento-card p-12 bg-apple-dark text-white relative overflow-hidden group"
-                    style="transition-delay: 100ms;">
-                    <div class="relative z-10">
-                        <div
-                            class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-white text-3xl mb-8 group-hover:rotate-12 transition-transform">
-                            <i class="fas fa-cogs"></i>
+                    <% if (s.image) { %>
+                        <div class="md:w-2/5 aspect-square md:aspect-auto rounded-[1.5rem] overflow-hidden shine grayscale">
+                            <img src="<%= s.image %>" alt="<%= s.title %>" class="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-110">
                         </div>
-                        <h3 class="text-3xl font-bold mb-4">Forge</h3>
-                        <p class="text-gray-400 leading-relaxed mb-8">Performance-driven custom workstations and gaming
-                            rigs built to your exact digital fingerprint.</p>
-                        <a href="/contact"
-                            class="inline-flex items-center font-bold text-apple-blue hover:text-white transition-colors">
-                            Start your build <i class="fas fa-arrow-right ml-2 text-xs"></i>
-                        </a>
-                    </div>
-                    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-apple-blue/20 rounded-full blur-3xl"></div>
+                    <% } %>
                 </div>
+            </div>
+        <% }) %>
+    </div>
+</section>
 
-                <!-- Data Recovery -->
-                <div class="reveal-on-scroll md:col-span-3 bento-card p-12 bg-[#fafafa] group"
-                    style="transition-delay: 200ms;">
-                    <div
-                        class="w-16 h-16 bg-white dark:bg-white/10 rounded-2xl shadow-sm flex items-center justify-center text-red-500 text-3xl mb-8 group-hover:scale-95 transition-transform">
-                        <i class="fas fa-hdd"></i>
-                    </div>
-                    <h3 class="text-3xl font-bold text-apple-dark dark:text-white mb-4">Rescue Protocol</h3>
-                    <p class="text-gray-500 leading-relaxed text-lg">Advanced logical data recovery from
-                        failing drives, corrupted systems, and accidental deletions.</p>
+<!-- ===== HOW WE WORK ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="text-center mb-16 reveal-on-scroll">
+        <h2 class="text-4xl md:text-6xl font-bold text-apple-dark dark:text-white">No guesswork. <span class="gradient-text">Just results.</span></h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <% [
+            { icon: 'fa-magnifying-glass-chart', title: 'Diagnose', body: 'A transparent, no-obligation assessment of exactly what’s wrong.' },
+            { icon: 'fa-screwdriver-wrench',     title: 'Repair',   body: 'Component-level work using genuine, quality-graded parts.' },
+            { icon: 'fa-circle-check',           title: 'Validate', body: 'Rigorous post-repair QC before it ever returns to you.' },
+        ].forEach((step, i) => { %>
+            <div class="reveal-on-scroll spotlight rounded-[2rem] bg-apple-gray dark:bg-white/[0.03] p-10" style="transition-delay: <%= i * 100 %>ms;">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-5xl font-black text-black/10 dark:text-white/10">0<%= i + 1 %></span>
+                    <span class="w-12 h-12 rounded-xl bg-white dark:bg-white/10 shadow-sm flex items-center justify-center text-apple-dark dark:text-white text-xl">
+                        <i class="fas <%= step.icon %>"></i>
+                    </span>
                 </div>
+                <h3 class="text-2xl font-bold text-apple-dark dark:text-white mb-3"><%= step.title %></h3>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed"><%= step.body %></p>
+            </div>
+        <% }) %>
+    </div>
+</section>
 
-                <!-- New & Refurbished -->
-                <div class="reveal-on-scroll md:col-span-3 bento-card p-12 bg-white dark:bg-[#1c1c1e] border-apple-blue/20 border-2 group"
-                    style="transition-delay: 300ms;">
-                    <div
-                        class="w-16 h-16 bg-apple-blue/5 rounded-2xl flex items-center justify-center text-apple-blue text-3xl mb-8 transition-transform group-hover:-translate-y-2">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <h3 class="text-3xl font-bold text-apple-dark dark:text-white mb-4">Curated Hardware</h3>
-                    <p class="text-gray-500 leading-relaxed text-lg">Every machine we sell undergoes a 50-point
-                        inspection. We call it "The Mamdani Certification."</p>
-                </div>
+<!-- ===== CTA ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28">
+    <div class="reveal-on-scroll relative overflow-hidden rounded-[2.5rem] bg-apple-dark p-12 md:p-20 text-center">
+        <div class="aurora opacity-60"><span></span><span></span><span></span></div>
+        <div class="relative max-w-2xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Don’t settle for “fixed.”<br>Aim for <span class="animated-gradient-text">perfect.</span></h2>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+                <a href="/contact" class="shine px-9 py-4 bg-white text-apple-dark rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:-translate-y-0.5">Book a diagnostic</a>
+                <a href="/" class="px-9 py-4 bg-white/10 text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all">Back to store</a>
             </div>
         </div>
     </div>
-
-    <!-- CTA Section -->
-    <section class="py-32 bg-white dark:bg-black transition-colors duration-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="reveal-on-scroll max-w-3xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold text-apple-dark dark:text-white mb-8">Don't settle for
-                    "fixed." <br> Aim for
-                    <span class="gradient-text">perfect.</span>
-                </h2>
-                <div class="flex flex-col sm:flex-row justify-center gap-6 mt-12">
-                    <a href="/contact"
-                        class="px-10 py-5 bg-apple-dark dark:bg-apple-blue text-white rounded-full font-bold text-lg hover:bg-black dark:hover:bg-blue-600 transition-all">Book
-                        a Diagnostic</a>
-                    <a href="/"
-                        class="px-10 py-5 bg-apple-gray dark:bg-white/10 text-apple-dark dark:text-white rounded-full font-bold text-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-all">Back
-                        to Store</a>
-                </div>
-            </div>
-        </div>
-    </section>
+</section>

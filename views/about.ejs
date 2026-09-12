@@ -1,92 +1,130 @@
-<div class="pt-32 pb-24 dark:bg-black transition-colors duration-500 overflow-hidden">
-    <!-- Hero Section -->
-    <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-20 md:mb-32">
-        <div class="reveal-on-scroll">
-            <h1
-                class="text-5xl md:text-8xl font-black tracking-tighter text-apple-dark dark:text-white mb-8 md:mb-12 leading-tight">
-                Precision.<br>
-                <span class="gradient-text">Redefined.</span>
-            </h1>
-            <p class="max-w-3xl mx-auto text-xl md:text-3xl text-gray-400 font-light leading-relaxed px-4">
-                We believe computing should be effortless. Our mission is to provide the world's finest hardware with
-                surgical-grade support.
+<%
+    const stats = [
+        { value: '16',  suffix: '+',  label: 'Years of mastery' },
+        { value: '25',  suffix: 'K+', label: 'Devices revived' },
+        { value: '50',  suffix: '',   label: 'Point inspection' },
+        { value: '99',  suffix: '%',  label: 'Customer delight' },
+    ];
+    const values = [
+        { icon: 'fa-heart',      title: 'Empathy',    body: 'Your devices are central to your life and work. We treat every one like it’s our own.' },
+        { icon: 'fa-shield-alt', title: 'Integrity',  body: 'Transparent pricing and honest assessments. No hidden costs, no surprises — ever.' },
+        { icon: 'fa-rocket',     title: 'Excellence', body: 'Good is never enough. We chase perfection in every solder joint and every interaction.' },
+    ];
+    const marquee = ['Micro-soldering','Liquid Cooling','Data Recovery','Custom Builds','macOS','Windows','Diagnostics','Thermal Design','SSD Upgrades','Board Repair'];
+%>
+
+<!-- ===== HERO ===== -->
+<section class="relative pt-36 pb-28 md:pt-44 md:pb-36 overflow-hidden">
+    <div class="aurora"><span></span><span></span><span></span></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="reveal-on-scroll inline-flex items-center gap-2 py-1.5 px-4 bg-black/5 dark:bg-white/10 text-apple-dark dark:text-white text-xs font-bold tracking-widest uppercase rounded-full mb-8">
+            <span class="w-2 h-2 rounded-full bg-apple-dark dark:bg-white animate-pulse"></span> Since 2009
+        </span>
+        <h1 class="reveal-on-scroll text-5xl md:text-8xl font-black tracking-tighter text-apple-dark dark:text-white mb-8 leading-[0.95]">
+            Precision.<br><span class="animated-gradient-text">Redefined.</span>
+        </h1>
+        <p class="reveal-on-scroll max-w-2xl mx-auto text-xl md:text-2xl text-gray-500 dark:text-gray-400 font-light leading-relaxed">
+            We believe computing should be effortless. Our mission: the world’s finest hardware, backed by surgical-grade support.
+        </p>
+    </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <% stats.forEach((s, i) => { %>
+            <div class="reveal-on-scroll spotlight gradient-border rounded-3xl bg-white dark:bg-white/[0.03] p-8 text-center" style="transition-delay: <%= i * 90 %>ms;">
+                <div class="text-4xl md:text-5xl font-black text-apple-dark dark:text-white tabular-nums">
+                    <span data-counter="<%= s.value %>" data-suffix="<%= s.suffix %>">0</span>
+                </div>
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 font-medium"><%= s.label %></p>
+            </div>
+        <% }) %>
+    </div>
+</section>
+
+<!-- ===== STORY ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div class="reveal-left relative">
+            <div class="rounded-[2.5rem] overflow-hidden aspect-[4/5] shine grayscale">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000"
+                    alt="Inside the Mamdani lab" class="w-full h-full object-cover">
+            </div>
+            <!-- Floating overlay card -->
+            <div class="absolute -bottom-6 -right-4 md:-right-8 glass rounded-3xl p-6 shadow-2xl animate-float w-44">
+                <div class="text-3xl font-black text-apple-dark dark:text-white">A+</div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Certified technicians on every bench</p>
+            </div>
+        </div>
+
+        <div class="reveal-right">
+            <span class="inline-block py-1 px-4 bg-black/5 dark:bg-white/10 text-apple-dark dark:text-white text-xs font-bold tracking-widest uppercase rounded-full mb-6">Our Story</span>
+            <h2 class="text-4xl md:text-5xl font-bold text-apple-dark dark:text-white mb-6">The Mamdani Standard</h2>
+            <p class="text-lg text-gray-500 dark:text-gray-400 leading-relaxed mb-5">
+                Every machine that leaves our studio undergoes a rigorous 50-point inspection. We don’t just sell computers — we deliver instruments of productivity.
             </p>
+            <p class="text-lg text-gray-500 dark:text-gray-400 leading-relaxed mb-8">
+                From micro-soldering to complex liquid cooling loops, our artisans handle your hardware with the respect it deserves.
+            </p>
+            <ul class="space-y-4">
+                <% ['Component-level board repair','Genuine & certified parts only','Same-day diagnostics on most devices'].forEach(point => { %>
+                    <li class="flex items-center gap-3 text-apple-dark dark:text-gray-200 font-medium">
+                        <span class="w-7 h-7 rounded-full bg-apple-dark text-white dark:bg-white dark:text-apple-dark flex items-center justify-center text-xs flex-shrink-0">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <%= point %>
+                    </li>
+                <% }) %>
+            </ul>
         </div>
-    </header>
+    </div>
+</section>
 
-    <!-- Bento Grid Philosophy -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-48">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-            <div class="md:col-span-8 bento-card p-16 bg-apple-gray flex flex-col justify-center reveal-on-scroll">
-                <h2 class="text-4xl font-bold mb-8 dark:text-white">The Mamdani Standard</h2>
-                <p class="text-xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl">
-                    Every machine that leaves our studio undergoes a rigorous 50-point inspection. We don't just sell
-                    computers; we deliver instruments of productivity.
-                </p>
-            </div>
-            <div class="md:col-span-4 bento-card aspect-square bg-apple-dark reveal-on-scroll"
-                style="transition-delay: 100ms;">
-                <div class="h-full w-full flex items-center justify-center p-12">
-                    <i class="fas fa-microchip text-white text-[120px] opacity-20"></i>
-                </div>
-            </div>
-            <div class="md:col-span-4 bento-card aspect-square bg-apple-blue reveal-on-scroll"
-                style="transition-delay: 200ms;">
-                <div class="h-full w-full flex flex-col justify-end p-12 text-white">
-                    <h3 class="text-3xl font-bold mb-4">Innovation</h3>
-                    <p class="text-blue-100">Always ahead of the curve.</p>
-                </div>
-            </div>
-            <div class="md:col-span-8 bento-card p-16 bg-white dark:bg-[#1c1c1e] reveal-on-scroll"
-                style="transition-delay: 300ms;">
-                <h2 class="text-4xl font-bold mb-8 dark:text-white">Craftsmanship in Every Byte</h2>
-                <p class="text-xl text-gray-500 dark:text-gray-400 leading-relaxed">
-                    Our technicians are more than just repair experts; they are artisans of the digital era. From
-                    micro-soldering to complex liquid cooling loops, we handle your hardware with the respect it
-                    deserves.
-                </p>
-            </div>
+<!-- ===== MARQUEE ===== -->
+<section class="py-10 border-y border-gray-100 dark:border-white/10 mb-28 md:mb-40">
+    <div class="marquee">
+        <div class="marquee__track">
+            <% for (let copy = 0; copy < 2; copy++) { %>
+                <% marquee.forEach(word => { %>
+                    <span class="flex items-center gap-3 text-2xl md:text-3xl font-bold text-gray-300 dark:text-white/20">
+                        <i class="fas fa-circle text-[6px] text-gray-400 dark:text-white/30"></i> <%= word %>
+                    </span>
+                <% }) %>
+            <% } %>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Values Section -->
-    <section class="bg-apple-gray py-48">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-32 reveal-on-scroll">
-                <h2 class="text-5xl md:text-7xl font-bold text-apple-dark dark:text-white">Our Values</h2>
+<!-- ===== VALUES ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="text-center mb-16 reveal-on-scroll">
+        <h2 class="text-4xl md:text-6xl font-bold text-apple-dark dark:text-white">What drives us</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <% values.forEach((v, i) => { %>
+            <div class="reveal-on-scroll spotlight gradient-border rounded-[2rem] bg-white dark:bg-white/[0.03] p-10" style="transition-delay: <%= i * 110 %>ms;">
+                <div class="w-16 h-16 rounded-2xl bg-apple-dark text-white dark:bg-white dark:text-apple-dark text-2xl flex items-center justify-center mb-8 shadow-lg shadow-black/10 animate-float" style="animation-delay: <%= i * 0.4 %>s;">
+                    <i class="fas <%= v.icon %>"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-apple-dark dark:text-white"><%= v.title %></h3>
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed"><%= v.body %></p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div class="text-center reveal-on-scroll">
-                    <div
-                        class="w-20 h-20 bg-white dark:bg-[#1c1c1e] rounded-[2rem] shadow-sm flex items-center justify-center text-apple-blue text-3xl mx-auto mb-10">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-6 dark:text-white">Empathy</h3>
-                    <p class="text-gray-500 dark:text-gray-400 leading-relaxed">We understand that your devices are
-                        central to your life
-                        and work.</p>
-                </div>
-                <div class="text-center reveal-on-scroll" style="transition-delay: 100ms;">
-                    <div
-                        class="w-20 h-20 bg-white dark:bg-[#1c1c1e] rounded-[2rem] shadow-sm flex items-center justify-center text-apple-blue text-3xl mx-auto mb-10">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-6 dark:text-white">Integrity</h3>
-                    <p class="text-gray-500 dark:text-gray-400 leading-relaxed">Transparent pricing and honest
-                        assessments. No hidden
-                        costs, ever.</p>
-                </div>
-                <div class="text-center reveal-on-scroll" style="transition-delay: 200ms;">
-                    <div
-                        class="w-20 h-20 bg-white dark:bg-[#1c1c1e] rounded-[2rem] shadow-sm flex items-center justify-center text-apple-blue text-3xl mx-auto mb-10">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-6 dark:text-white">Excellence</h3>
-                    <p class="text-gray-500 dark:text-gray-400 leading-relaxed">Good is never enough. We strive for
-                        perfection in every
-                        interaction.</p>
-                </div>
+        <% }) %>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28">
+    <div class="reveal-on-scroll relative overflow-hidden rounded-[2.5rem] bg-apple-dark p-12 md:p-20 text-center">
+        <div class="aurora opacity-60"><span></span><span></span><span></span></div>
+        <div class="relative">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Let’s build something <span class="animated-gradient-text">extraordinary.</span></h2>
+            <p class="text-white/60 text-lg max-w-xl mx-auto mb-10">Whether it’s a rescue mission or a dream workstation, our bench is ready.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/contact" class="shine px-9 py-4 bg-white text-apple-dark rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:-translate-y-0.5">Talk to a technician</a>
+                <a href="/products" class="px-9 py-4 bg-white/10 text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all">Browse hardware</a>
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>

@@ -1,34 +1,73 @@
 <%# layout('layout') removed because it's handled in app.js %>
 
-    <div x-data="{ 
+<div x-data="{
     search: '',
     priceRange: 250000,
     sortOrder: 'newest',
     activeCategories: [],
+    activeCpus: [],
     categories: [],
+    cpuBrands: [],
     products: [],
     loading: true,
-    
+    showMobileFilters: false,
+
     async init() {
         try {
             this.products = await ProductsFetcher.getProducts();
             const categoryNames = this.products.map(p => p.category?.name || p.category);
             this.categories = [...new Set(categoryNames.filter(Boolean))];
+            // Build the processor filter from whatever CPUs are actually in stock
+            const order = ['Intel', 'AMD', 'Apple'];
+            const found = new Set(this.products.map(p => this.brandOf(p)).filter(Boolean));
+            this.cpuBrands = order.filter(b => found.has(b));
         } catch (error) {
             console.error('Error loading products:', error);
         } finally {
             this.loading = false;
         }
     },
-    showMobileFilters: false,
-    
+
+    // Pull the CPU/processor spec out of a product, whatever shape the data is in
+    cpuOf(p) {
+        const s = p.specifications || p.specs || {};
+        if (Array.isArray(s)) return s.join(' ');
+        if (s && typeof s === 'object') {
+            for (const k of Object.keys(s)) {
+                if (/cpu|processor|chip/i.test(k)) return String(s[k]);
+            }
+        }
+        return '';
+    },
+
+    // Everything searchable about a product, lower-cased (name + category + specs)
+    blob(p) {
+        const s = p.specifications || p.specs || {};
+        let specStr = '';
+        if (Array.isArray(s)) specStr = s.join(' ');
+        else if (s && typeof s === 'object') specStr = Object.values(s).join(' ');
+        return (p.name + ' ' + (p.category?.name || p.category || '') + ' ' + specStr).toLowerCase();
+    },
+
+    // Classify a product's processor so we can filter by brand
+    brandOf(p) {
+        const c = (this.cpuOf(p) || this.blob(p)).toLowerCase();
+        if (/intel|core i[3579]|celeron|pentium|xeon/.test(c)) return 'Intel';
+        if (/amd|ryzen|athlon/.test(c)) return 'AMD';
+        if (/apple|\bm[1-4]\b|m1|m2|m3|m4/.test(c)) return 'Apple';
+        return null;
+    },
+
     get filteredProducts() {
+        const q = this.search.trim().toLowerCase();
         let filtered = this.products.filter(p => {
-            const matchesSearch = p.name.toLowerCase().includes(this.search.toLowerCase());
+            const matchesSearch = q === '' || this.blob(p).includes(q);
             const matchesPrice = p.price <= this.priceRange;
             const catName = p.category?.name || p.category;
             const matchesCategory = this.activeCategories.length === 0 || this.activeCategories.includes(catName);
-            return matchesSearch && matchesPrice && matchesCategory;
+            const brand = this.brandOf(p);
+            const matchesCpu = this.activeCpus.length === 0 || (brand && this.activeCpus.includes(brand));
+            return matchesSearch && matchesPrice && matchesCategory && matchesCpu;
         });
 
         if (this.sortOrder === 'price-low') {
@@ -36,228 +75,276 @@
         } else if (this.sortOrder === 'price-high') {
             filtered.sort((a, b) => b.price - a.price);
         } else {
-            // Newest by default
             filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         }
-
         return filtered;
     },
 
     toggleCategory(cat) {
-        if (this.activeCategories.includes(cat)) {
-            this.activeCategories = this.activeCategories.filter(c => c !== cat);
-        } else {
-            this.activeCategories.push(cat);
-        }
+        this.activeCategories = this.activeCategories.includes(cat)
+            ? this.activeCategories.filter(c => c !== cat)
+            : [...this.activeCategories, cat];
+    },
+    toggleCpu(brand) {
+        this.activeCpus = this.activeCpus.includes(brand)
+            ? this.activeCpus.filter(c => c !== brand)
+            : [...this.activeCpus, brand];
+    },
+    resetAll() {
+        this.search = '';
+        this.activeCategories = [];
+        this.activeCpus = [];
+        this.priceRange = 250000;
+        this.sortOrder = 'newest';
+    },
+
+    isNew(dateStr) {
+        if (!dateStr) return false;
+        const date = new Date(dateStr);
+        const now = new Date();
+        return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
     }
-}" class="pt-24 pb-24 dark:bg-black transition-colors duration-500 min-h-screen">
+}" class="pt-24 pb-24 transition-colors duration-500 min-h-screen">
 
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Section -->
-            <div
-                class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16 reveal-on-scroll">
-                <div>
-                    <h1 class="text-4xl md:text-5xl font-black text-apple-dark dark:text-white mb-4">Catalog.</h1>
-                    <p class="text-xl text-gray-400 font-light">The complete collection of professional hardware.</p>
-                </div>
-                <div class="w-full md:w-auto flex items-center gap-4">
-                    <div class="relative flex-1 md:w-72">
-                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" x-model="search" placeholder="Search tech..."
-                            class="w-full pl-12 pr-6 py-3 bg-white dark:bg-[#1c1c1e] border border-gray-100 dark:border-white/5 rounded-full focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-all shadow-sm dark:text-white">
-                    </div>
-                    <button @click="showMobileFilters = true"
-                        class="md:hidden w-12 h-12 flex items-center justify-center bg-white border border-gray-100 rounded-full text-apple-dark">
-                        <i class="fas fa-filter"></i>
-                    </button>
-                </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header + Search -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12 reveal-on-scroll">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black text-apple-dark dark:text-white mb-3">Catalog.</h1>
+                <p class="text-lg text-gray-400 font-light">The complete collection of professional hardware.</p>
             </div>
-
-            <div class="flex flex-col lg:flex-row gap-12">
-                <!-- Sidebar Filters (Desktop) -->
-                <aside class="hidden lg:block w-64 space-y-10 shrink-0 reveal-on-scroll">
-                    <!-- Categories -->
-                    <div>
-                        <h3 class="text-sm font-bold tracking-widest uppercase text-gray-400 mb-6">Categories</h3>
-                        <div class="space-y-4">
-                            <template x-for="cat in categories">
-                                <label class="flex items-center group cursor-pointer">
-                                    <div class="relative flex items-center">
-                                        <input type="checkbox" @change="toggleCategory(cat)"
-                                            :checked="activeCategories.includes(cat)" class="peer sr-only">
-                                        <div
-                                            class="w-5 h-5 border-2 border-gray-200 rounded-md group-hover:border-apple-blue transition-colors peer-checked:bg-apple-blue peer-checked:border-apple-blue flex items-center justify-center">
-                                            <i
-                                                class="fas fa-check text-[10px] text-white opacity-0 peer-checked:opacity-100"></i>
-                                        </div>
-                                        <span
-                                            class="ml-3 text-gray-600 group-hover:text-apple-dark transition-colors font-medium"
-                                            x-text="cat"></span>
-                                    </div>
-                                </label>
-                            </template>
-                        </div>
-                    </div>
-
-                    <!-- Price Range -->
-                    <div>
-                        <h3 class="text-sm font-bold tracking-widest uppercase text-gray-400 mb-6">Max Price</h3>
-                        <div class="space-y-4">
-                            <input type="range" x-model="priceRange" min="0" max="250000" step="1000"
-                                class="w-full accent-apple-blue">
-                            <div class="flex justify-between text-sm font-bold text-apple-dark">
-                                <span>₹0</span>
-                                <span x-text="'₹' + parseInt(priceRange).toLocaleString('en-IN')"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sorting -->
-                    <div>
-                        <h3 class="text-sm font-bold tracking-widest uppercase text-gray-400 mb-6">Sort By</h3>
-                        <select x-model="sortOrder"
-                            class="w-full bg-white border border-gray-100 rounded-xl px-4 py-3 text-apple-dark font-medium focus:ring-2 focus:ring-apple-blue transition-all outline-none">
-                            <option value="newest">Newest Arrivals</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                        </select>
-                    </div>
-                </aside>
-
-                <!-- Product Grid -->
-                <main class="flex-1">
-                    <!-- Loading State -->
-                    <div x-show="loading" class="py-32 text-center">
-                        <div class="flex justify-center items-center space-x-3 mb-6">
-                            <div class="w-3 h-3 bg-apple-blue rounded-full animate-bounce" style="animation-delay: 0s;"></div>
-                            <div class="w-3 h-3 bg-apple-blue rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
-                            <div class="w-3 h-3 bg-apple-blue rounded-full animate-bounce" style="animation-delay: 0.4s;"></div>
-                        </div>
-                        <p class="text-gray-400 text-lg font-medium">Loading products...</p>
-                    </div>
-
-                    <div x-show="!loading" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                        <template x-for="product in filteredProducts" :key="product.id">
-                            <a :href="'/product/' + product.id" class="bento-card flex flex-col cursor-pointer group block">
-                                <div class="aspect-square overflow-hidden bg-apple-gray relative rounded-t-[2rem]">
-                                    <img :src="product.images?.[0] || 'https://via.placeholder.com/800x800?text=No+Image'" :alt="product.name"
-                                        class="w-full h-full object-cover rounded-t-[2rem] transition-transform duration-700 group-hover:scale-105">
-                                    <div class="absolute top-4 right-4">
-                                        <span x-text="product.isSold ? 'Sold' : 'Available'"
-                                            :class="product.isSold ? 'bg-apple-dark text-white' : 'bg-apple-blue text-white'"
-                                            class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"></span>
-                                    </div>
-                                </div>
-                                <div class="p-6 flex flex-col flex-1">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"
-                                            x-text="product.category?.name || product.category"></span>
-                                        <span class="text-lg font-bold text-apple-dark dark:text-white"
-                                            x-text="'₹' + product.price.toLocaleString('en-IN')"></span>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-apple-dark dark:text-white mb-2"
-                                        x-text="product.name"></h3>
-                                    <p class="text-sm text-gray-500 line-clamp-2 mb-6" x-text="product.description || 'Professional grade hardware.'"></p>
-                                    <div class="mt-auto flex items-center text-apple-blue font-bold text-sm">
-                                        Details <i
-                                            class="fas fa-chevron-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
-                                    </div>
-                                </div>
-                            </a>
-                        </template>
-                    </div>
-
-                    <!-- Empty State -->
-                    <div x-show="!loading && filteredProducts.length === 0" class="py-32 text-center reveal-on-scroll">
-                        <div
-                            class="w-20 h-20 bg-apple-gray rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300 text-3xl">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-apple-dark mb-2">No results found</h3>
-                        <p class="text-gray-400">Try adjusting your filters or search terms.</p>
-                        <button @click="search = ''; activeCategories = []; priceRange = 3000"
-                            class="mt-8 text-apple-blue font-bold hover:underline">Clear all filters</button>
-                    </div>
-                </main>
+            <div class="w-full md:w-auto flex items-center gap-3">
+                <div class="relative flex-1 md:w-80">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" x-model="search" inputmode="search"
+                        placeholder="Search name or CPU — try “Intel”, “Ryzen”, “M3”"
+                        class="w-full pl-11 pr-4 py-3 bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-full text-sm focus:ring-2 focus:ring-apple-dark dark:focus:ring-white focus:border-transparent transition-all outline-none dark:text-white">
+                </div>
+                <button @click="showMobileFilters = true"
+                    class="lg:hidden w-12 h-12 flex-shrink-0 flex items-center justify-center bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-full text-apple-dark dark:text-white">
+                    <i class="fas fa-sliders"></i>
+                </button>
             </div>
         </div>
 
-        <!-- Mobile Filters Overlay -->
-        <div x-show="showMobileFilters" class="fixed inset-0 z-[100] lg:hidden"
-            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100" x-cloak>
-            <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" @click="showMobileFilters = false"></div>
-            <div class="absolute bottom-0 inset-x-0 bg-white dark:bg-[#1c1c1e] rounded-t-[2.5rem] p-8 max-h-[90vh] overflow-y-auto"
-                x-transition:enter="transition ease-out duration-300 translate-y-full"
-                x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0">
-                <div class="flex justify-between items-center mb-10">
-                    <h2 class="text-2xl font-bold text-apple-dark dark:text-white">Filters</h2>
-                    <button @click="showMobileFilters = false"
-                        class="w-10 h-10 flex items-center justify-center bg-apple-gray rounded-full text-apple-dark">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+        <!-- Quick processor chips (visible on every screen size for fast access) -->
+        <div x-show="cpuBrands.length" class="flex flex-wrap items-center gap-2 mb-10 reveal-on-scroll">
+            <span class="text-[11px] font-bold uppercase tracking-widest text-gray-400 mr-1">Processor</span>
+            <template x-for="brand in cpuBrands" :key="brand">
+                <button @click="toggleCpu(brand)"
+                    :class="activeCpus.includes(brand) ? 'bg-apple-dark text-white dark:bg-white dark:text-apple-dark border-transparent' : 'bg-white dark:bg-white/[0.04] text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10'"
+                    class="px-4 py-1.5 rounded-full text-xs font-bold border transition-all"
+                    x-text="brand"></button>
+            </template>
+            <button x-show="activeCpus.length || activeCategories.length || search"
+                @click="resetAll()"
+                class="px-3 py-1.5 text-xs font-bold text-gray-400 hover:text-apple-dark dark:hover:text-white transition-colors">
+                <i class="fas fa-xmark mr-1"></i> Clear
+            </button>
+        </div>
 
-                <div class="space-y-12 pb-10">
-                    <!-- Mobile Categories -->
-                    <div>
-                        <h3 class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-6">Categories</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <template x-for="cat in categories">
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Sidebar Filters (Desktop) -->
+            <aside class="hidden lg:block w-64 shrink-0">
+                <div class="sticky top-28 space-y-10">
+                    <!-- Categories -->
+                    <div class="reveal-on-scroll">
+                        <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-5">Categories</h3>
+                        <div class="space-y-1">
+                            <template x-for="cat in categories" :key="cat">
                                 <button @click="toggleCategory(cat)"
-                                    :class="activeCategories.includes(cat) ? 'bg-apple-blue text-white' : 'bg-apple-gray text-gray-600'"
-                                    class="px-6 py-3 rounded-full text-sm font-bold transition-all"
-                                    x-text="cat"></button>
+                                    class="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-colors text-sm font-semibold"
+                                    :class="activeCategories.includes(cat) ? 'bg-black/5 dark:bg-white/10 text-apple-dark dark:text-white' : 'hover:bg-gray-50 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400'">
+                                    <span x-text="cat"></span>
+                                    <i x-show="activeCategories.includes(cat)" class="fas fa-check text-xs"></i>
+                                </button>
                             </template>
                         </div>
                     </div>
 
-                    <!-- Mobile Price -->
-                    <div>
-                        <h3 class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-6">Max Price</h3>
+                    <!-- Price -->
+                    <div class="reveal-on-scroll">
+                        <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-5">Max Price</h3>
                         <input type="range" x-model="priceRange" min="0" max="250000" step="1000"
-                            class="w-full accent-apple-blue h-2 rounded-lg appearance-none bg-gray-200">
-                        <div class="flex justify-between text-lg font-bold text-apple-dark mt-4">
-                            <span>₹0</span>
-                            <span x-text="'₹' + parseInt(priceRange).toLocaleString('en-IN')"></span>
+                            class="w-full h-1.5 bg-gray-200 dark:bg-white/10 rounded-lg appearance-none cursor-pointer accent-apple-dark dark:accent-white">
+                        <div class="flex justify-between mt-4 text-sm">
+                            <span class="text-gray-400">₹0</span>
+                            <span class="font-bold text-apple-dark dark:text-white" x-text="'₹' + parseInt(priceRange).toLocaleString('en-IN')"></span>
                         </div>
                     </div>
 
-                    <!-- Mobile Sort -->
-                    <div>
-                        <h3 class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-6">Sort By</h3>
-                        <div class="grid grid-cols-1 gap-3">
-                            <button @click="sortOrder = 'newest'"
-                                :class="sortOrder === 'newest' ? 'border-apple-blue text-apple-blue bg-blue-50' : 'border-gray-100 text-gray-600'"
-                                class="px-6 py-4 rounded-2xl border-2 text-left font-bold transition-all text-sm">Newest
-                                Arrivals</button>
-                            <button @click="sortOrder = 'price-low'"
-                                :class="sortOrder === 'price-low' ? 'border-apple-blue text-apple-blue bg-blue-50' : 'border-gray-100 text-gray-600'"
-                                class="px-6 py-4 rounded-2xl border-2 text-left font-bold transition-all text-sm">Price:
-                                Low to High</button>
-                            <button @click="sortOrder = 'price-high'"
-                                :class="sortOrder === 'price-high' ? 'border-apple-blue text-apple-blue bg-blue-50' : 'border-gray-100 text-gray-600'"
-                                class="px-6 py-4 rounded-2xl border-2 text-left font-bold transition-all text-sm">Price:
-                                High to Low</button>
+                    <!-- Sort -->
+                    <div class="reveal-on-scroll">
+                        <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-5">Sort By</h3>
+                        <div class="relative">
+                            <select x-model="sortOrder"
+                                class="w-full appearance-none bg-white dark:bg-white/[0.04] border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-sm font-bold text-apple-dark dark:text-white focus:ring-2 focus:ring-apple-dark dark:focus:ring-white transition-all cursor-pointer outline-none">
+                                <option value="newest">Newest Arrivals</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
                         </div>
                     </div>
+                </div>
+            </aside>
 
-                    <div class="pt-6">
-                        <button @click="showMobileFilters = false"
-                            class="w-full py-5 bg-apple-dark text-white rounded-2xl font-bold text-lg">Apply
-                            Filters</button>
-                        <button
-                            @click="search = ''; activeCategories = []; priceRange = 3000; showMobileFilters = false"
-                            class="w-full mt-4 py-3 text-gray-400 font-bold text-sm">Reset All</button>
+            <!-- Product Grid -->
+            <main class="flex-1">
+                <!-- Result count -->
+                <div x-show="!loading" class="mb-6 text-sm text-gray-400" x-cloak>
+                    <span x-text="filteredProducts.length"></span> result<span x-show="filteredProducts.length !== 1">s</span>
+                </div>
+
+                <!-- Loading -->
+                <div x-show="loading" class="py-32 text-center">
+                    <div class="flex justify-center items-center gap-2 mb-5">
+                        <div class="w-2.5 h-2.5 bg-apple-dark dark:bg-white rounded-full animate-bounce" style="animation-delay: 0s;"></div>
+                        <div class="w-2.5 h-2.5 bg-apple-dark dark:bg-white rounded-full animate-bounce" style="animation-delay: 0.15s;"></div>
+                        <div class="w-2.5 h-2.5 bg-apple-dark dark:bg-white rounded-full animate-bounce" style="animation-delay: 0.3s;"></div>
                     </div>
+                    <p class="text-gray-400 font-medium">Loading products...</p>
+                </div>
+
+                <!-- Cards -->
+                <div x-show="!loading" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6" x-cloak>
+                    <template x-for="product in filteredProducts" :key="product.id">
+                        <a :href="'/product/' + product.id"
+                            class="product-card group block rounded-3xl overflow-hidden bg-white dark:bg-white/[0.03] border border-gray-100 dark:border-white/10 transition-shadow duration-300 hover:shadow-xl">
+                            <!-- Image -->
+                            <div class="relative aspect-[4/3] bg-apple-gray dark:bg-white/5 overflow-hidden">
+                                <template x-if="product.images && product.images.length">
+                                    <img :src="product.images[0]" :alt="product.name" loading="lazy" decoding="async"
+                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                </template>
+                                <template x-if="!product.images || !product.images.length">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <i class="fas fa-microchip text-gray-200 dark:text-white/10 text-7xl"></i>
+                                    </div>
+                                </template>
+                                <!-- Tags -->
+                                <div class="absolute top-3 left-3 flex flex-col gap-2">
+                                    <template x-if="isNew(product.createdAt)">
+                                        <span class="bg-apple-dark text-white dark:bg-white dark:text-apple-dark px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest">New</span>
+                                    </template>
+                                    <template x-if="product.isSold">
+                                        <span class="bg-black/60 text-white px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest">Sold</span>
+                                    </template>
+                                </div>
+                            </div>
+                            <!-- Body -->
+                            <div class="p-4 md:p-5">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400" x-text="product.category?.name || product.category"></span>
+                                    <template x-if="brandOf(product)">
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/10 text-apple-dark dark:text-white" x-text="brandOf(product)"></span>
+                                    </template>
+                                </div>
+                                <h3 class="font-bold text-apple-dark dark:text-white leading-snug line-clamp-1" x-text="product.name"></h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1" x-text="cpuOf(product) || ' '"></p>
+                                <div class="mt-4 flex items-center justify-between">
+                                    <span class="text-lg font-black text-apple-dark dark:text-white" x-text="'₹' + product.price.toLocaleString('en-IN')"></span>
+                                    <span class="w-8 h-8 rounded-full bg-apple-dark text-white dark:bg-white dark:text-apple-dark flex items-center justify-center text-xs transition-transform group-hover:translate-x-0.5">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </template>
+                </div>
+
+                <!-- Empty -->
+                <div x-show="!loading && filteredProducts.length === 0" class="py-28 text-center" x-cloak>
+                    <div class="w-20 h-20 bg-apple-gray dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300 dark:text-white/20 text-3xl">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-apple-dark dark:text-white mb-2">No results found</h3>
+                    <p class="text-gray-400">Try a different search or clear your filters.</p>
+                    <button @click="resetAll()" class="mt-6 font-bold text-apple-dark dark:text-white underline">Clear all filters</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Mobile Filters -->
+    <div x-show="showMobileFilters" class="fixed inset-0 z-[100] lg:hidden" x-cloak
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" @click="showMobileFilters = false"></div>
+        <div class="absolute bottom-0 inset-x-0 bg-white dark:bg-[#141416] rounded-t-[2rem] p-7 max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-apple-dark dark:text-white">Filters</h2>
+                <button @click="showMobileFilters = false" class="w-10 h-10 flex items-center justify-center bg-apple-gray dark:bg-white/10 rounded-full text-apple-dark dark:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-9 pb-8">
+                <!-- Processor -->
+                <div x-show="cpuBrands.length">
+                    <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">Processor</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="brand in cpuBrands" :key="brand">
+                            <button @click="toggleCpu(brand)"
+                                :class="activeCpus.includes(brand) ? 'bg-apple-dark text-white dark:bg-white dark:text-apple-dark' : 'bg-gray-50 dark:bg-white/5 text-gray-600 dark:text-gray-400'"
+                                class="px-5 py-2.5 rounded-full text-xs font-bold transition-all" x-text="brand"></button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">Categories</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="cat in categories" :key="cat">
+                            <button @click="toggleCategory(cat)"
+                                :class="activeCategories.includes(cat) ? 'bg-apple-dark text-white dark:bg-white dark:text-apple-dark' : 'bg-gray-50 dark:bg-white/5 text-gray-600 dark:text-gray-400'"
+                                class="px-5 py-2.5 rounded-full text-xs font-bold transition-all" x-text="cat"></button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">Max Price</h3>
+                    <input type="range" x-model="priceRange" min="0" max="250000" step="1000"
+                        class="w-full accent-apple-dark dark:accent-white h-1.5 rounded-lg appearance-none bg-gray-200 dark:bg-white/10">
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs text-gray-400 font-bold uppercase tracking-widest">Up to</span>
+                        <span class="text-xl font-black text-apple-dark dark:text-white" x-text="'₹' + parseInt(priceRange).toLocaleString('en-IN')"></span>
+                    </div>
+                </div>
+
+                <!-- Sort -->
+                <div>
+                    <h3 class="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">Sort By</h3>
+                    <div class="grid grid-cols-1 gap-2">
+                        <template x-for="opt in [{v:'newest',l:'Newest Arrivals'},{v:'price-low',l:'Price: Low to High'},{v:'price-high',l:'Price: High to Low'}]" :key="opt.v">
+                            <button @click="sortOrder = opt.v"
+                                :class="sortOrder === opt.v ? 'bg-black/5 dark:bg-white/10 border-apple-dark/30 dark:border-white/30 text-apple-dark dark:text-white' : 'bg-white dark:bg-white/5 border-gray-100 dark:border-white/5 text-gray-600 dark:text-gray-400'"
+                                class="px-5 py-3.5 rounded-xl border-2 text-left font-bold transition-all text-sm flex justify-between items-center">
+                                <span x-text="opt.l"></span>
+                                <i x-show="sortOrder === opt.v" class="fas fa-check text-xs"></i>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button @click="showMobileFilters = false"
+                        class="w-full py-4 bg-apple-dark text-white dark:bg-white dark:text-apple-dark rounded-2xl font-bold text-lg">Show results</button>
+                    <button @click="resetAll(); showMobileFilters = false"
+                        class="w-full mt-3 py-3 text-gray-400 font-bold text-xs uppercase tracking-widest">Reset all</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
+<style>
+    [x-cloak] { display: none !important; }
+    /* Skip rendering off-screen cards — big win on low-end devices */
+    .product-card {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 360px;
+    }
+</style>

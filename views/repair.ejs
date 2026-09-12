@@ -1,111 +1,118 @@
-<div class="pt-32 pb-24 dark:bg-black transition-colors duration-500">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Hero -->
-        <div class="text-center mb-20 md:mb-32 reveal-on-scroll">
-            <span
-                class="inline-block py-1 px-4 bg-apple-blue/10 text-apple-blue text-[10px] md:text-xs font-bold tracking-widest uppercase rounded-full mb-8">Support
-                & Care</span>
-            <h1 class="text-5xl md:text-8xl font-black text-apple-dark dark:text-white mb-10 md:mb-12 leading-tight">
-                Repair.<br>
-                <span class="gradient-text">Perfected.</span>
-            </h1>
-            <p class="max-w-3xl mx-auto text-xl md:text-3xl text-gray-400 font-light italic leading-relaxed px-4">
-                "We don't just fix computers. We restore original performance."
-            </p>
-        </div>
+<%
+    const categories = [
+        {
+            icon: 'fa-laptop', title: 'Laptops & MacBooks',
+            body: 'Logic board repairs, screen replacements and battery optimisations.',
+            points: ['Display repair', 'Keyboard / trackpad', 'Water damage'],
+        },
+        {
+            icon: 'fa-desktop', title: 'Desktops & Workstations',
+            body: 'Performance upgrades, thermal re-pasting and PSU troubleshooting.',
+            points: ['CPU / GPU upgrades', 'Custom loop service', 'Dust & thermal clean'],
+        },
+        {
+            icon: 'fa-microchip', title: 'Advanced Diagnostics',
+            body: 'Deep-level troubleshooting and stress testing for ghost issues.',
+            points: ['Kernel panics', 'Component testing', 'BIOS / UEFI recovery'],
+        },
+    ];
+    const steps = [
+        { icon: 'fa-clipboard-check', title: 'Check-in',    body: 'Detailed visual inspection & logging.' },
+        { icon: 'fa-gauge-high',      title: 'Diagnostic',  body: 'Hardware stress testing to find root cause.' },
+        { icon: 'fa-screwdriver-wrench', title: 'Surgical fix', body: 'Component-level repair by certified hands.' },
+        { icon: 'fa-shield-heart',    title: 'Final QC',     body: 'Post-repair validation before pickup.' },
+    ];
+%>
 
-        <!-- Repair Categories -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-48">
-            <div class="bento-card p-12 bg-white dark:bg-[#1c1c1e] flex flex-col group reveal-on-scroll">
-                <div class="text-4xl text-apple-blue mb-8 transition-transform group-hover:scale-110">
-                    <i class="fas fa-laptop"></i>
+<!-- ===== HERO ===== -->
+<section class="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden">
+    <div class="aurora"><span></span><span></span><span></span></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span class="reveal-on-scroll inline-flex items-center gap-2 py-1.5 px-4 bg-black/5 dark:bg-white/10 text-apple-dark dark:text-white text-xs font-bold tracking-widest uppercase rounded-full mb-8">
+            <span class="w-2 h-2 rounded-full bg-apple-dark dark:bg-white animate-pulse"></span> Support & Care
+        </span>
+        <h1 class="reveal-on-scroll text-5xl md:text-8xl font-black tracking-tighter text-apple-dark dark:text-white mb-8 leading-[0.95]">
+            Repair.<br><span class="animated-gradient-text">Perfected.</span>
+        </h1>
+        <p class="reveal-on-scroll max-w-2xl mx-auto text-xl md:text-2xl text-gray-500 dark:text-gray-400 font-light italic leading-relaxed">
+            “We don’t just fix computers. We restore original performance.”
+        </p>
+    </div>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <% categories.forEach((c, i) => { %>
+            <div class="reveal-on-scroll spotlight gradient-border rounded-[2rem] bg-white dark:bg-white/[0.03] p-10 flex flex-col group" style="transition-delay: <%= i * 100 %>ms;">
+                <div class="w-16 h-16 rounded-2xl bg-apple-dark text-white dark:bg-white dark:text-apple-dark text-2xl flex items-center justify-center mb-8 shadow-lg shadow-black/10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                    <i class="fas <%= c.icon %>"></i>
                 </div>
-                <h3 class="text-2xl font-bold mb-4 dark:text-white">Laptops & MacBooks</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">Logic board repairs, screen
-                    replacements, and battery
-                    optimizations.</p>
+                <h3 class="text-2xl font-bold mb-4 text-apple-dark dark:text-white"><%= c.title %></h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed"><%= c.body %></p>
                 <ul class="mt-auto space-y-3">
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Display Repair</li>
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Keyboard/Trackpad</li>
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Water Damage</li>
+                    <% c.points.forEach(point => { %>
+                        <li class="flex items-center gap-3 text-sm font-medium text-apple-dark dark:text-gray-300">
+                            <i class="fas fa-check text-apple-dark dark:text-white"></i> <%= point %>
+                        </li>
+                    <% }) %>
                 </ul>
             </div>
+        <% }) %>
+    </div>
+</section>
 
-            <div class="bento-card p-12 bg-white dark:bg-[#1c1c1e] flex flex-col group reveal-on-scroll"
-                style="transition-delay: 100ms;">
-                <div class="text-4xl text-apple-blue mb-8 transition-transform group-hover:scale-110">
-                    <i class="fas fa-desktop"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4 dark:text-white">Desktop & Workstations</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">Performance upgrades, thermal
-                    re-pasting, and PSU
-                    troubleshooting.</p>
-                <ul class="mt-auto space-y-3">
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> CPU/GPU Upgrades</li>
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Custom Loop Service</li>
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Dust & Thermal Clean</li>
-                </ul>
-            </div>
+<!-- ===== PROCESS TIMELINE ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="relative overflow-hidden rounded-[2.5rem] md:rounded-[3rem] bg-apple-dark p-10 md:p-20">
+        <div class="aurora opacity-50"><span></span><span></span><span></span></div>
+        <div class="relative">
+            <h2 class="text-4xl md:text-6xl font-bold text-white text-center mb-16 reveal-on-scroll">The Repair Protocol</h2>
 
-            <div class="bento-card p-12 bg-white dark:bg-[#1c1c1e] flex flex-col group reveal-on-scroll"
-                style="transition-delay: 200ms;">
-                <div class="text-4xl text-apple-blue mb-8 transition-transform group-hover:scale-110">
-                    <i class="fas fa-microchip"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-4 dark:text-white">Advanced Diagnostics</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">Deep-level troubleshooting and stress
-                    testing for ghost
-                    issues.</p>
-                <ul class="mt-auto space-y-3">
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Kernel Panics</li>
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> Component Testing</li>
-                    <li class="flex items-center text-sm font-medium text-apple-dark dark:text-gray-300"><i
-                            class="fas fa-check text-apple-blue mr-3"></i> BIOS/UEFI Recovery</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- The Process -->
-        <div class="bg-apple-dark rounded-[2.5rem] md:rounded-[3rem] p-10 md:p-32 text-center reveal-on-scroll">
-            <h2 class="text-4xl md:text-6xl font-bold text-white mb-16">The Repair Protocol</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-                <div class="flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white font-bold mb-6">
-                        1</div>
-                    <h4 class="text-lg font-bold text-white mb-2">Check-in</h4>
-                    <p class="text-apple-gray/60 text-sm">Detailed visual inspection.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white font-bold mb-6">
-                        2</div>
-                    <h4 class="text-lg font-bold text-white mb-2">Diagnostic</h4>
-                    <p class="text-apple-gray/60 text-sm">Hardware stress testing.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white font-bold mb-6">
-                        3</div>
-                    <h4 class="text-lg font-bold text-white mb-2">Surgical fix</h4>
-                    <p class="text-apple-gray/60 text-sm">Component-level repair.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white font-bold mb-6">
-                        4</div>
-                    <h4 class="text-lg font-bold text-white mb-2">Final QC</h4>
-                    <p class="text-apple-gray/60 text-sm">Post-repair validation.</p>
-                </div>
+            <div class="relative grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-6">
+                <!-- connecting line (desktop) -->
+                <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                <% steps.forEach((step, i) => { %>
+                    <div class="reveal-on-scroll relative flex flex-col items-center text-center" style="transition-delay: <%= i * 120 %>ms;">
+                        <div class="relative w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white text-xl mb-6 backdrop-blur">
+                            <i class="fas <%= step.icon %>"></i>
+                            <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white text-apple-dark text-xs font-bold flex items-center justify-center"><%= i + 1 %></span>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2"><%= step.title %></h4>
+                        <p class="text-white/50 text-sm leading-relaxed max-w-[14rem]"><%= step.body %></p>
+                    </div>
+                <% }) %>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- ===== ASSURANCE STRIP ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 md:mb-40">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <% [
+            { icon: 'fa-stopwatch',     title: 'Same-day',   body: 'Diagnostics on most devices.' },
+            { icon: 'fa-medal',         title: '90-day',     body: 'Warranty on every repair.' },
+            { icon: 'fa-indian-rupee-sign', title: 'No-fix', body: 'No-fee promise, guaranteed.' },
+        ].forEach((item, i) => { %>
+            <div class="reveal-on-scroll spotlight rounded-[2rem] bg-apple-gray dark:bg-white/[0.03] p-8 flex items-center gap-5" style="transition-delay: <%= i * 100 %>ms;">
+                <span class="w-14 h-14 rounded-2xl bg-white dark:bg-white/10 shadow-sm flex items-center justify-center text-apple-dark dark:text-white text-2xl flex-shrink-0">
+                    <i class="fas <%= item.icon %>"></i>
+                </span>
+                <div>
+                    <h4 class="text-xl font-bold text-apple-dark dark:text-white"><%= item.title %></h4>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm"><%= item.body %></p>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28 text-center reveal-on-scroll">
+    <h2 class="text-4xl md:text-5xl font-bold text-apple-dark dark:text-white mb-8">Something not working right?</h2>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="/contact" class="shine px-9 py-4 bg-apple-dark text-white dark:bg-white dark:text-apple-dark rounded-full font-bold text-lg hover:opacity-90 transition-all hover:-translate-y-0.5">Book a repair</a>
+        <a href="/services" class="px-9 py-4 bg-apple-gray dark:bg-white/10 text-apple-dark dark:text-white rounded-full font-bold text-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-all">See all services</a>
+    </div>
+</section>
