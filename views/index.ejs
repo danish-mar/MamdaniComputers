@@ -17,7 +17,7 @@
     },
     get filteredProducts() {
         if (this.filter === 'all') return this.products;
-        return this.products.filter(p => p.isSold === (this.filter === 'sold'));
+        return this.products.filter(p => Boolean(p.isSold) === (this.filter === 'sold'));
     }
 }">
 
@@ -137,10 +137,10 @@
 
             <!-- Horizontal Scroll Rack -->
             <div class="relative group">
-                <div x-show="loading" class="flex justify-center py-20">
+                <div x-show="loading" class="flex justify-center py-20" x-cloak>
                      <div class="w-12 h-12 border-4 border-apple-blue border-t-transparent rounded-full animate-spin"></div>
                 </div>
-                <div x-show="!loading" class="flex overflow-x-auto space-x-6 md:space-x-8 px-6 md:px-[calc(50vw-640px)] scrollbar-hide snap-x snap-mandatory"
+                <div x-show="!loading" class="flex overflow-x-auto space-x-6 md:space-x-8 px-6 md:px-[calc(50vw-640px)] scrollbar-hide snap-x snap-mandatory" x-cloak
                     style="scrollbar-width: none; -ms-overflow-style: none;">
                     <template x-for="product in filteredProducts" :key="product.id">
                         <a :href="'/product/' + product.id" class="snap-center shrink-0 w-[85vw] sm:w-[400px] group/card cursor-pointer block">

@@ -82,7 +82,7 @@
     <!-- AlpineJS -->
     <script
       defer
-      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.14.8/cdn.min.js"
     ></script>
     <script>
       window.API_BASE_URL = "<%= API_BASE_URL %>";
@@ -134,16 +134,15 @@
 
       .reveal-on-scroll {
         opacity: 0;
-        transform: translateY(30px) scale(0.98);
+        transform: translateY(20px);
         transition:
-          opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1),
-          transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-        will-change: transform, opacity;
+          opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .reveal-on-scroll.visible {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
       }
 
       .gradient-text {
@@ -261,6 +260,8 @@
         filter: blur(80px);
         opacity: 0.3;
         animation: drift 20s ease-in-out infinite;
+        transform: translateZ(0);
+        will-change: transform;
       }
       .aurora span:nth-child(1) {
         width: 42vw;
@@ -470,15 +471,14 @@
       .reveal-right {
         opacity: 0;
         transition:
-          opacity 1s cubic-bezier(0.23, 1, 0.32, 1),
-          transform 1s cubic-bezier(0.23, 1, 0.32, 1);
-        will-change: transform, opacity;
+          opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       }
       .reveal-left {
-        transform: translateX(-44px);
+        transform: translateX(-24px);
       }
       .reveal-right {
-        transform: translateX(44px);
+        transform: translateX(24px);
       }
       .reveal-left.visible,
       .reveal-right.visible {
@@ -577,14 +577,19 @@
 
         observeElements();
 
-        // Spotlight glow follows the cursor inside .spotlight elements
+        // Spotlight glow follows the cursor inside .spotlight elements (throttled with RAF)
+        let spotlightRaf = null;
         document.addEventListener("mousemove", (e) => {
           const t = e.target.closest && e.target.closest(".spotlight");
           if (!t) return;
-          const r = t.getBoundingClientRect();
-          t.style.setProperty("--mx", `${e.clientX - r.left}px`);
-          t.style.setProperty("--my", `${e.clientY - r.top}px`);
-        });
+          if (spotlightRaf) return;
+          spotlightRaf = requestAnimationFrame(() => {
+            const r = t.getBoundingClientRect();
+            t.style.setProperty("--mx", `${e.clientX - r.left}px`);
+            t.style.setProperty("--my", `${e.clientY - r.top}px`);
+            spotlightRaf = null;
+          });
+        }, { passive: true });
 
         // Animated number counters: <span data-counter="25" data-suffix="K+">0</span>
         const counterObserver = new IntersectionObserver(
@@ -597,7 +602,7 @@
               const suffix = el.dataset.suffix || "";
               const start = performance.now();
               const tick = (now) => {
-                const p = Math.min((now - start) / 1600, 1);
+                const p = Math.min((now - start) / 1200, 1);
                 const eased = 1 - Math.pow(1 - p, 3);
                 el.textContent = (target * eased).toFixed(decimals) + suffix;
                 if (p < 1) requestAnimationFrame(tick);
@@ -612,8 +617,23 @@
           .querySelectorAll("[data-counter]")
           .forEach((el) => counterObserver.observe(el));
 
-        const mutationObserver = new MutationObserver(() => {
-          observeElements();
+        // Watch for newly mounted element nodes only, debounced to avoid layout thrash
+        let debounceTimer = null;
+        const mutationObserver = new MutationObserver((mutations) => {
+          let hasAddedElements = false;
+          for (const m of mutations) {
+            for (const node of m.addedNodes) {
+              if (node.nodeType === 1) {
+                hasAddedElements = true;
+                break;
+              }
+            }
+            if (hasAddedElements) break;
+          }
+          if (hasAddedElements) {
+            if (debounceTimer) cancelAnimationFrame(debounceTimer);
+            debounceTimer = requestAnimationFrame(observeElements);
+          }
         });
 
         mutationObserver.observe(document.body, {
@@ -625,10 +645,6 @@
   </head>
 
   <body class="overflow-x-hidden" x-data :class="$store.theme.mode">
-    <div class="bg-animation">
-      <div class="ray"></div>
-      <div class="ray"></div>
-    </div>
     <%- include('partials/header') %>
 
     <main><%- body %></main>

@@ -1,0 +1,403 @@
+{
+  "success": true,
+  "message": "Public products for RAG retrieved successfully",
+  "data": [
+    {
+      "_id": "6ae61626122e096c1203a603",
+      "name": "Dell Vostro 3400",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 27000,
+      "specifications": {
+        "Brand": "Dell",
+        "CPU": "Intel Core i5 11Th Gen",
+        "Memory": "16 GB DDR4",
+        "Storage": "512 GB",
+        "Graphics": "Intel R Iris Xe Graphics ",
+        "Screen": "14\" FHD",
+        "Battery Health": "100",
+        "Age": ""
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793463845557_407347751.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793463845805_755894782.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793463846240_870152887.jpg"
+      ],
+      "createdAt": "2026-10-31T16:24:06.532Z",
+      "updatedAt": "2026-10-31T16:24:41.757Z",
+      "productID": "8P4BTG",
+      "__v": 1,
+      "id": "6ae61626122e096c1203a603"
+    },
+    {
+      "_id": "6ae22b3db79c6d5f69acd98b",
+      "name": "ASUS TUF Gaming F15",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 42000,
+      "specifications": {
+        "Brand": "Asus",
+        "CPU": "Intel Core i5 10Th Gen",
+        "Memory": "8GB DDR4",
+        "Storage": "512GB SSD",
+        "Graphics": "Nvidia GeForce GTX 1650",
+        "Screen": "15.3\"",
+        "Battery Health": "100"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793207101471_537204262.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793207101509_205631964.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793207101540_837320855.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793207101571_925992496.jpg"
+      ],
+      "createdAt": "2026-10-28T17:05:01.605Z",
+      "updatedAt": "2026-10-28T17:05:01.605Z",
+      "productID": "I09CSJ",
+      "__v": 0,
+      "id": "6ae22b3db79c6d5f69acd98b"
+    },
+    {
+      "_id": "6ae2222cb79c6d5f69acd82a",
+      "name": "Lenovo Thinkpad E14",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 30000,
+      "specifications": {
+        "Brand": "Lenovo",
+        "CPU": "Intel Core i5 10Th Gen",
+        "Memory": "8 GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel UHD Graphics",
+        "Screen": "14\" FHD",
+        "Battery Health": "100"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204780201_693853267.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204830291_352196353.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204830362_199557392.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204830422_302178638.jpg"
+      ],
+      "createdAt": "2026-10-28T16:26:20.331Z",
+      "updatedAt": "2026-10-28T16:27:10.503Z",
+      "productID": "JFB1Y3",
+      "__v": 1,
+      "id": "6ae2222cb79c6d5f69acd82a"
+    },
+    {
+      "_id": "6ae2209db79c6d5f69acd77e",
+      "name": "Dell Latitude 7490",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 21000,
+      "specifications": {
+        "Brand": "Dell",
+        "CPU": "Intel Core i5 8Th Gen",
+        "Memory": "8GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel R UHD Graphics 620",
+        "Screen": "14\" FHD",
+        "Battery Health": "100"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204380927_477519127.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204381079_99016065.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204381254_569710368.jpg"
+      ],
+      "createdAt": "2026-10-28T16:19:41.416Z",
+      "updatedAt": "2026-10-28T16:19:41.416Z",
+      "productID": "PMDOCD",
+      "__v": 0,
+      "id": "6ae2209db79c6d5f69acd77e"
+    },
+    {
+      "_id": "6ae22001b79c6d5f69acd6de",
+      "name": "MSI GF63 Thin 11UC",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 52000,
+      "specifications": {
+        "Brand": "MSI",
+        "CPU": "Intel Core i5 11Th Gen",
+        "Memory": "8GB DDR4",
+        "Storage": "512GB SSD",
+        "Graphics": "Nvidia GeForce RTX 3050 4GB",
+        "Screen": "15.3\"",
+        "Battery Health": "100"
+      },
+      "tags": [
+        "Gaming"
+      ],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204224844_913257888.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204225022_567384085.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204225222_9983954.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1793204225390_794240278.jpg"
+      ],
+      "createdAt": "2026-10-28T16:17:05.563Z",
+      "updatedAt": "2026-10-28T16:17:05.563Z",
+      "productID": "CX40FV",
+      "__v": 0,
+      "id": "6ae22001b79c6d5f69acd6de"
+    },
+    {
+      "_id": "6aa40bdb0c066a96d6641c4b",
+      "name": "Dell Inspiron 3505",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 32000,
+      "specifications": {
+        "Brand": "Dell",
+        "CPU": "AMD Ryzen 5 3450U",
+        "Memory": "8 GB DDR4",
+        "Storage": "256 GB SSD + 1 TB HDD",
+        "Graphics": "AMD Radeon Graphics 2GB",
+        "Screen": "15.3\"",
+        "Battery Health": "100"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789135835167_421039120.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789135835737_2781127.jpg"
+      ],
+      "createdAt": "2026-09-11T14:10:35.852Z",
+      "updatedAt": "2026-10-28T16:14:14.666Z",
+      "productID": "TB0UZ9",
+      "__v": 1,
+      "id": "6aa40bdb0c066a96d6641c4b"
+    },
+    {
+      "_id": "6aa40a0d0c066a96d6641b17",
+      "name": "Acer Aspire A515-56",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 34000,
+      "specifications": {
+        "Brand": "Acer",
+        "CPU": "Intel Core i5 10Th Gen",
+        "Memory": "8GB DDR4",
+        "Storage": "512GB M.2 NVMe",
+        "Graphics": "Intel R Iris Xe Graphics",
+        "Screen": "15.6 FHD Display"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789135372820_894945752.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789135373343_491654218.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789135373450_535826215.jpg"
+      ],
+      "createdAt": "2026-09-11T14:02:53.493Z",
+      "updatedAt": "2026-09-11T14:02:53.493Z",
+      "productID": "XUMITV",
+      "__v": 0,
+      "id": "6aa40a0d0c066a96d6641b17"
+    },
+    {
+      "_id": "6aa408180c066a96d6641a79",
+      "name": "Lenovo ThinkPad E14",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 28500,
+      "specifications": {
+        "Brand": "Lenovo",
+        "CPU": "Intel Core i5 10 Gen",
+        "Memory": "8GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel UHD Graphics",
+        "Screen": "14\" FHD",
+        "Age": "Sep 2020"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789134872027_605170136.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789134872184_554076098.jpg"
+      ],
+      "createdAt": "2026-09-11T13:54:32.364Z",
+      "updatedAt": "2026-09-11T13:54:32.364Z",
+      "productID": "2FGU6D",
+      "__v": 0,
+      "id": "6aa408180c066a96d6641a79"
+    },
+    {
+      "_id": "6aa4070b0c066a96d66419d7",
+      "name": "HP ProBook 440 G7",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 29500,
+      "specifications": {
+        "Brand": "HP",
+        "CPU": "Intel Core i5 10Th Gen",
+        "Memory": "8 GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel UHD Graphics",
+        "Screen": "14\" Display",
+        "Battery Health": "100"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789134603162_590127381.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789134603763_871076752.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1789134603899_870911907.jpg"
+      ],
+      "createdAt": "2026-09-11T13:50:03.969Z",
+      "updatedAt": "2026-09-11T13:50:03.969Z",
+      "productID": "1PBHKX",
+      "__v": 0,
+      "id": "6aa4070b0c066a96d66419d7"
+    },
+    {
+      "_id": "6aa17ffc3043c20645f008e4",
+      "name": "Dell Inspiron 3584",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 19000,
+      "specifications": {
+        "Brand": "Dell",
+        "CPU": "Intel Core i3 7th Gen",
+        "Memory": "8GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel UHD Graphics",
+        "Screen": "15.6\" HD Display",
+        "Age": "Jan 2020"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968954771_260444791.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968955276_659190850.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968955632_458977535.jpg"
+      ],
+      "createdAt": "2026-09-09T15:49:16.062Z",
+      "updatedAt": "2026-09-09T15:49:16.062Z",
+      "productID": "FQFN59",
+      "__v": 0,
+      "id": "6aa17ffc3043c20645f008e4"
+    },
+    {
+      "_id": "6aa17f7e3043c20645f00854",
+      "name": "Dell Laptop",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 22000,
+      "specifications": {
+        "Brand": "Dell",
+        "CPU": "Intel Core i3 10th Gen",
+        "Memory": "8 GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel UHD Graphics",
+        "Screen": "15.6\" HD LED",
+        "Age": "Jan 2021"
+      },
+      "tags": [],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968830286_342244324.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968830770_935875655.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968830880_107953148.jpg"
+      ],
+      "createdAt": "2026-09-09T15:47:10.993Z",
+      "updatedAt": "2026-09-09T15:50:01.605Z",
+      "productID": "1IR2KK",
+      "__v": 1,
+      "id": "6aa17f7e3043c20645f00854"
+    },
+    {
+      "_id": "6aa17e133043c20645f00716",
+      "name": "HP 348 G5 Notebook",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 18500,
+      "specifications": {
+        "Brand": "HP",
+        "CPU": "Intel Core i3 8th Gen",
+        "Memory": "8 GB DDR4",
+        "Storage": "256GB SSD",
+        "Graphics": "Intel UHD Graphics",
+        "Screen": "14\" FHD",
+        "Battery Health": "100"
+      },
+      "tags": [
+        "HP"
+      ],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968465117_703424919.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968465666_631921058.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968465811_86560728.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968466444_433884603.jpg"
+      ],
+      "createdAt": "2026-09-09T15:41:07.102Z",
+      "updatedAt": "2026-09-09T15:41:07.102Z",
+      "productID": "0SYHDN",
+      "__v": 0,
+      "id": "6aa17e133043c20645f00716"
+    },
+    {
+      "_id": "6aa17d563043c20645f005c3",
+      "name": "Dell 15 DC15255",
+      "category": {
+        "_id": "695d08a62c4d6a85123a96b9",
+        "name": "Laptops"
+      },
+      "price": 39000,
+      "specifications": {
+        "Brand": "Dell",
+        "CPU": "AMD Ryzen 3 7320U",
+        "Memory": "8 GB DDR5",
+        "Storage": "512GB NVMe",
+        "Graphics": "AMD Radeon Graphics",
+        "Screen": "15.6 FHD Display",
+        "Battery Health": "100"
+      },
+      "tags": [
+        "DELL"
+      ],
+      "isSold": false,
+      "images": [
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968277174_685489907.jpg",
+        "https://cdn.mamdanicomputers.com/astr-inventory/products/prod_1788968277679_136926963.jpg"
+      ],
+      "createdAt": "2026-09-09T15:37:58.698Z",
+      "updatedAt": "2026-09-09T15:38:25.264Z",
+      "productID": "MA6NKE",
+      "__v": 1,
+      "id": "6aa17d563043c20645f005c3"
+    }
+  ]
+}

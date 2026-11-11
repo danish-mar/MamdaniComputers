@@ -5,38 +5,69 @@ const ProductsFetcher = {
     
     // Fallback products in case server is down
     fallbackProducts: [
-        { id: '1', name: 'MacBook Pro M3 Max', category: 'Laptops', type: 'new', price: 199900, images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=1200'], specifications: { CPU: 'M3 Max Chip', RAM: '36GB Unified Memory', Storage: '1TB SSD' } },
-        { id: '2', name: 'Custom Gaming Rig V2', category: 'Desktops', type: 'new', price: 148000, images: ['https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=1200'], specifications: { GPU: 'RTX 4080 Super', CPU: 'Intel i9-14900K', RAM: '64GB DDR5' } }
+        { id: '1', name: 'MacBook Pro M3 Max', category: 'Laptops', type: 'new', price: 199900, isSold: false, images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=1200'], specifications: { CPU: 'M3 Max Chip', RAM: '36GB Unified Memory', Storage: '1TB SSD' } },
+        { id: '2', name: 'Custom Gaming Rig V2', category: 'Desktops', type: 'new', price: 148000, isSold: false, images: ['https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&q=80&w=1200'], specifications: { GPU: 'RTX 4080 Super', CPU: 'Intel i9-14900K', RAM: '64GB DDR5' } }
     ],
 
+    _cache: null,
+    _fetchPromise: null,
+
     /**
-     * Fetch products from external server
+     * Fetch products from external server (with client caching to prevent stutter)
      * @returns {Promise<Array>} Array of products
      */
     async getProducts() {
-        try {
-            console.log('Fetching products from:', this.API_URL);
-            const response = await fetch(this.API_URL);
-            
-            if (!response.ok) {
-                throw new Error(`Server error: ${response.status}`);
+        if (this._cache) return this._cache;
+        if (this._fetchPromise) return this._fetchPromise;
+
+        this._fetchPromise = (async () => {
+            try {
+                // Check sessionStorage for fast page transitions
+                try {
+                    const stored = sessionStorage.getItem('mc_products_cache');
+                    const storedTime = sessionStorage.getItem('mc_products_time');
+                    if (stored && storedTime && (Date.now() - Number(storedTime) < 60000)) {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length) {
+                            this._cache = parsed;
+                            return parsed;
+                        }
+                    }
+                } catch (_) {}
+
+                console.log('Fetching products from:', this.API_URL);
+                const response = await fetch(this.API_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                if (result.success && Array.isArray(result.data)) {
+                    console.log('Products fetched successfully:', result.data.length);
+                    // Ensure each product has an 'id' field for consistency
+                    const products = result.data.map(p => ({
+                        ...p,
+                        id: String(p.id || p._id)
+                    }));
+                    this._cache = products;
+                    try {
+                        sessionStorage.setItem('mc_products_cache', JSON.stringify(products));
+                        sessionStorage.setItem('mc_products_time', String(Date.now()));
+                    } catch (_) {}
+                    return products;
+                } else {
+                    throw new Error(result.message || 'Unknown API error');
+                }
+            } catch (error) {
+                console.warn('Failed to fetch products from server, using fallback:', error);
+                return this.fallbackProducts;
+            } finally {
+                this._fetchPromise = null;
             }
-            
-            const result = await response.json();
-            if (result.success && Array.isArray(result.data)) {
-                console.log('Products fetched successfully:', result.data);
-                // Ensure each product has an 'id' field for consistency if it only has '_id'
-                return result.data.map(p => ({
-                    ...p,
-                    id: p.id || p._id
-                }));
-            } else {
-                throw new Error(result.message || 'Unknown API error');
-            }
-        } catch (error) {
-            console.warn('Failed to fetch products from server, using fallback:', error);
-            return this.fallbackProducts;
-        }
+        })();
+
+        return this._fetchPromise;
     },
 
     /**
@@ -87,7 +118,12 @@ const ProductsFetcher = {
         } else if (sortBy === 'price-high') {
             sorted.sort((a, b) => b.price - a.price);
         } else {
-            sorted.sort((a, b) => b.id - a.id);
+            sorted.sort((a, b) => {
+                const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                if (dateB !== dateA) return dateB - dateA;
+                return String(b.id || '').localeCompare(String(a.id || ''));
+            });
         }
         
         return sorted;

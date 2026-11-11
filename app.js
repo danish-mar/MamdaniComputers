@@ -1,5 +1,9 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const dns = require('dns');
+// Prefer IPv4 first to prevent IPv6 routing timeouts on local networks
+dns.setDefaultResultOrder('ipv4first');
 const expressLayouts = require('express-ejs-layouts');
 const axios = require('axios');
 require('dotenv').config();
@@ -56,21 +60,73 @@ app.get('/product/:id', (req, res) => {
     });
 });
 
-// Proxy route to bypass CORS
-app.get('/api/proxy/products', async (req, res) => {
-    try {
-        const targetUrl = (process.env.API_BASE_URL || 'https://api.mamdanicomputers.com') + '/api/v1/products/public';
-        console.log(`[Proxy] Fetching from: ${targetUrl}`);
-        const response = await axios.get(targetUrl);
-        res.json(response.data);
-    } catch (error) {
-        console.error('Proxy error:', error.message);
-        res.status(error.response?.status || 500).json({
-            success: false,
-            message: 'Failed to fetch products through proxy',
-            error: error.message
-        });
+const CACHE_FILE = path.join(__dirname, 'data', 'products-cache.json');
+let productsCache = { data: null, timestamp: 0 };
+const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes
+
+// Load local snapshot immediately on boot so catalog is always available
+try {
+    if (fs.existsSync(CACHE_FILE)) {
+        const raw = fs.readFileSync(CACHE_FILE, 'utf-8');
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.success && Array.isArray(parsed.data)) {
+            productsCache = { data: parsed, timestamp: 0 };
+            console.log(`[Proxy] Loaded ${parsed.data.length} products from local snapshot.`);
+        }
     }
+} catch (err) {
+    console.warn('[Proxy] Could not load local snapshot:', err.message);
+}
+
+async function fetchUpstreamProducts() {
+    const targetUrl = (process.env.API_BASE_URL || 'https://api.mamdanicomputers.com') + '/api/v1/products/public';
+    try {
+        console.log(`[Proxy] Fetching from: ${targetUrl}`);
+        const response = await axios.get(targetUrl, { timeout: 4000 });
+        if (response.data && response.data.success) {
+            productsCache = { data: response.data, timestamp: Date.now() };
+            try {
+                fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+                fs.writeFileSync(CACHE_FILE, JSON.stringify(response.data, null, 2));
+            } catch (_) {}
+            return response.data;
+        }
+    } catch (error) {
+        console.warn(`[Proxy] Upstream fetch error: ${error.message}`);
+    }
+    return productsCache.data;
+}
+
+// Pre-warm / revalidate the cache on server startup
+fetchUpstreamProducts();
+
+// Proxy route to bypass CORS with stale-while-revalidate
+app.get('/api/proxy/products', async (req, res) => {
+    res.set('Cache-Control', 'public, max-age=60');
+    const now = Date.now();
+
+    // Cache is fresh: return immediately (< 1ms)
+    if (productsCache.data && (now - productsCache.timestamp < CACHE_TTL_MS)) {
+        return res.json(productsCache.data);
+    }
+
+    // Cache exists (either snapshot or previous fetch): return immediately, revalidate in background
+    if (productsCache.data) {
+        res.json(productsCache.data);
+        fetchUpstreamProducts();
+        return;
+    }
+
+    // If completely empty (first run without snapshot), wait for fetch
+    const data = await fetchUpstreamProducts();
+    if (data) {
+        return res.json(data);
+    }
+
+    res.status(504).json({
+        success: false,
+        message: 'Upstream product API timeout'
+    });
 });
 
 app.listen(port, () => {

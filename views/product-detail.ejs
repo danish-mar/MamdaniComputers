@@ -7,11 +7,14 @@
     async init() {
         try {
             const allProducts = await ProductsFetcher.getProducts();
-            this.product = allProducts.find(p => p.id === this.productId);
+            const targetId = String(this.productId || '').trim().toLowerCase();
+            this.product = allProducts.find(p => 
+                String(p.id || '').toLowerCase() === targetId ||
+                String(p._id || '').toLowerCase() === targetId ||
+                String(p.productID || '').toLowerCase() === targetId
+            );
             if (!this.product) {
-                // If not found in primary list, it might be a direct fetch if API supports it
-                // For now, if not found, we show an error
-                console.error('Product not found in local cache');
+                console.warn('Product not found for ID:', this.productId);
             }
         } catch (error) {
             console.error('Error loading product detail:', error);
@@ -22,7 +25,7 @@
 }" class="pt-32 pb-24 min-h-screen dark:bg-black transition-colors duration-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Loading State -->
-        <div x-show="loading" class="py-32 text-center">
+        <div x-show="loading" class="py-32 text-center" x-cloak>
             <div class="flex justify-center items-center space-x-3 mb-6">
                 <div class="w-3 h-3 bg-apple-blue rounded-full animate-bounce" style="animation-delay: 0s;"></div>
                 <div class="w-3 h-3 bg-apple-blue rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
@@ -32,7 +35,7 @@
         </div>
 
         <!-- Error State -->
-        <div x-show="!loading && !product" class="py-32 text-center">
+        <div x-show="!loading && !product" class="py-32 text-center" x-cloak>
             <h2 class="text-3xl font-bold text-apple-dark dark:text-white mb-4">Product Not Found</h2>
             <p class="text-gray-500 mb-8">The product you are looking for might have been sold or removed.</p>
             <a href="/products" class="px-8 py-4 bg-apple-blue text-white rounded-full font-bold hover:scale-105 transition-all inline-block">
@@ -41,7 +44,7 @@
         </div>
 
         <!-- Product Content -->
-        <div x-show="!loading && product" class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+        <div x-show="!loading && product" class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24" x-cloak>
             <!-- Left: Square Gallery -->
             <div class="space-y-8">
                 <div class="aspect-square bg-white dark:bg-[#1c1c1e] rounded-[2.5rem] overflow-hidden shadow-2xl relative border border-gray-100 dark:border-white/5 group">
@@ -104,7 +107,7 @@
                 
                 <div class="mb-12">
                     <span class="text-5xl font-black text-apple-blue" 
-                          x-text="'₹' + product?.price.toLocaleString('en-IN')"></span>
+                          x-text="product?.price ? '₹' + Number(product.price).toLocaleString('en-IN') : 'Contact for Price'"></span>
                 </div>
 
                 <div class="space-y-12 mb-16">
